@@ -1,0 +1,701 @@
+K 25
+svn:wc:ra_dav:version-url
+V 67
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj
+END
+LambertConformalConicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/LambertConformalConicProjection.java
+END
+AiryProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/AiryProjection.java
+END
+PutninsP5Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/PutninsP5Projection.java
+END
+SimpleConicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/jmapprojlib/!svn/ver/6/JMapProjLib/src/com/jhlabs/map/proj/SimpleConicProjection.java
+END
+FoucautProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/FoucautProjection.java
+END
+Wagner3Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Wagner3Projection.java
+END
+ProjectionFactory.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/12/JMapProjLib/src/com/jhlabs/map/proj/ProjectionFactory.java
+END
+Werenskiold1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Werenskiold1Projection.java
+END
+AitoffProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/AitoffProjection.java
+END
+EquidistantCylindricalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/EquidistantCylindricalProjection.java
+END
+OrthographicAzimuthalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/OrthographicAzimuthalProjection.java
+END
+HammerProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/HammerProjection.java
+END
+Apian1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Apian1Projection.java
+END
+Wagner7Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/Wagner7Projection.java
+END
+Winkel2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Winkel2Projection.java
+END
+EulerProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/jmapprojlib/!svn/ver/7/JMapProjLib/src/com/jhlabs/map/proj/EulerProjection.java
+END
+TCEAProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/TCEAProjection.java
+END
+Ginzburg8Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Ginzburg8Projection.java
+END
+GallProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/GallProjection.java
+END
+LagrangeProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/LagrangeProjection.java
+END
+Murdoch1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Murdoch1Projection.java
+END
+LambertEqualAreaConicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 104
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/LambertEqualAreaConicProjection.java
+END
+QuarticAuthalicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 98
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/QuarticAuthalicProjection.java
+END
+MillerCylindrical2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/MillerCylindrical2Projection.java
+END
+PutninsP4PProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/PutninsP4PProjection.java
+END
+PutninsP5PProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/PutninsP5PProjection.java
+END
+LandsatProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/LandsatProjection.java
+END
+Kavraisky5Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Kavraisky5Projection.java
+END
+MBTFPSProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/MBTFPSProjection.java
+END
+EckertGreifendorffProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/EckertGreifendorffProjection.java
+END
+ModifiedAzimuthalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/jmapprojlib/!svn/ver/13/JMapProjLib/src/com/jhlabs/map/proj/ModifiedAzimuthalProjection.java
+END
+Eckert3Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Eckert3Projection.java
+END
+BoggsProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/BoggsProjection.java
+END
+McBrydeThomasSine1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/jmapprojlib/!svn/ver/9/JMapProjLib/src/com/jhlabs/map/proj/McBrydeThomasSine1Projection.java
+END
+RobinsonNewProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/RobinsonNewProjection.java
+END
+Wagner2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Wagner2Projection.java
+END
+OrteliusProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/OrteliusProjection.java
+END
+LaskowskiProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/LaskowskiProjection.java
+END
+LarriveeProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/LarriveeProjection.java
+END
+EquidistantAzimuthalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/EquidistantAzimuthalProjection.java
+END
+STSProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/jmapprojlib/!svn/ver/9/JMapProjLib/src/com/jhlabs/map/proj/STSProjection.java
+END
+TCCProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/TCCProjection.java
+END
+Wagner6Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Wagner6Projection.java
+END
+HatanoProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/HatanoProjection.java
+END
+SinusoidalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/SinusoidalProjection.java
+END
+Winkel1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Winkel1Projection.java
+END
+Fournier2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/Fournier2Projection.java
+END
+MBTFPS1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/MBTFPS1Projection.java
+END
+CylindricalEqualAreaProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/CylindricalEqualAreaProjection.java
+END
+Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 83
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Projection.java
+END
+BaconProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/BaconProjection.java
+END
+MillerCylindrical1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/MillerCylindrical1Projection.java
+END
+EllipticalPseudoCylindrical.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/EllipticalPseudoCylindrical.java
+END
+TissotProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/7/JMapProjLib/src/com/jhlabs/map/proj/TissotProjection.java
+END
+GnomonicAzimuthalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/GnomonicAzimuthalProjection.java
+END
+BipolarProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/BipolarProjection.java
+END
+CassiniProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/CassiniProjection.java
+END
+GoodeProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/GoodeProjection.java
+END
+AzimuthalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/AzimuthalProjection.java
+END
+Eckert2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/Eckert2Projection.java
+END
+FoucautSinusoidalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 100
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/FoucautSinusoidalProjection.java
+END
+BonneProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/BonneProjection.java
+END
+CrasterProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/CrasterProjection.java
+END
+Eckert6Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/9/JMapProjLib/src/com/jhlabs/map/proj/Eckert6Projection.java
+END
+OtherProjections.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/OtherProjections.java
+END
+Wagner1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/Wagner1Projection.java
+END
+PerspectiveConicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/PerspectiveConicProjection.java
+END
+EquidistantConicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/jmapprojlib/!svn/ver/6/JMapProjLib/src/com/jhlabs/map/proj/EquidistantConicProjection.java
+END
+McBrydeThomasFlatPolarSine2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 111
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/McBrydeThomasFlatPolarSine2Projection.java
+END
+AlbersProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/AlbersProjection.java
+END
+Wagner5Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Wagner5Projection.java
+END
+WinkelTripelProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/WinkelTripelProjection.java
+END
+LinearProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/LinearProjection.java
+END
+StereographicAzimuthalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 105
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/StereographicAzimuthalProjection.java
+END
+MollweideProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/MollweideProjection.java
+END
+McBrydeThomasFlatPolarParabolicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 115
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/McBrydeThomasFlatPolarParabolicProjection.java
+END
+CollignonProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/CollignonProjection.java
+END
+Murdoch3Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Murdoch3Projection.java
+END
+MBTFPQProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/MBTFPQProjection.java
+END
+PerspectiveProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/PerspectiveProjection.java
+END
+RobinsonProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/RobinsonProjection.java
+END
+NellProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/NellProjection.java
+END
+Kavraisky7Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Kavraisky7Projection.java
+END
+ConicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/ConicProjection.java
+END
+CylindricalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/CylindricalProjection.java
+END
+ObliqueMercatorProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 99
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/ObliqueMercatorProjection.java
+END
+Eckert1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Eckert1Projection.java
+END
+ProjectionException.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/ProjectionException.java
+END
+PolyconicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/8/JMapProjLib/src/com/jhlabs/map/proj/PolyconicProjection.java
+END
+McBrydeThomasFlatPolarQuarticProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 113
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/McBrydeThomasFlatPolarQuarticProjection.java
+END
+Eckert5Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Eckert5Projection.java
+END
+PutninsP2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/PutninsP2Projection.java
+END
+DenoyerProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/DenoyerProjection.java
+END
+CentralCylindricalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/CentralCylindricalProjection.java
+END
+VanDerGrintenProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/VanDerGrintenProjection.java
+END
+Wagner4Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Wagner4Projection.java
+END
+AugustProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/AugustProjection.java
+END
+VitkovskyProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/7/JMapProjLib/src/com/jhlabs/map/proj/VitkovskyProjection.java
+END
+Apian2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/Apian2Projection.java
+END
+NullProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/NullProjection.java
+END
+MercatorProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/MercatorProjection.java
+END
+URMFPSProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/URMFPSProjection.java
+END
+PseudoCylindricalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/jmapprojlib/!svn/ver/10/JMapProjLib/src/com/jhlabs/map/proj/PseudoCylindricalProjection.java
+END
+EqualAreaAzimuthalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 101
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/EqualAreaAzimuthalProjection.java
+END
+NicolosiProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/NicolosiProjection.java
+END
+Murdoch2Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Murdoch2Projection.java
+END
+NellHammerProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/8/JMapProjLib/src/com/jhlabs/map/proj/NellHammerProjection.java
+END
+LoximuthalProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 93
+/svnroot/jmapprojlib/!svn/ver/8/JMapProjLib/src/com/jhlabs/map/proj/LoximuthalProjection.java
+END
+RectangularPolyconicProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 103
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/RectangularPolyconicProjection.java
+END
+MBTFPPProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/8/JMapProjLib/src/com/jhlabs/map/proj/MBTFPPProjection.java
+END
+TransverseMercatorProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 102
+/svnroot/jmapprojlib/!svn/ver/11/JMapProjLib/src/com/jhlabs/map/proj/TransverseMercatorProjection.java
+END
+FaheyProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svnroot/jmapprojlib/!svn/ver/8/JMapProjLib/src/com/jhlabs/map/proj/FaheyProjection.java
+END
+HolzelProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/HolzelProjection.java
+END
+ModStereoProjection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/ModStereoProjection.java
+END
+Eckert4Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/Eckert4Projection.java
+END
+PutninsP1Projection.java
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/proj/PutninsP1Projection.java
+END

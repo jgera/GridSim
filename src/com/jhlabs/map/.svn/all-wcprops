@@ -1,0 +1,47 @@
+K 25
+svn:wc:ra_dav:version-url
+V 62
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map
+END
+AngleFormat.java
+K 25
+svn:wc:ra_dav:version-url
+V 79
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/AngleFormat.java
+END
+Unit.java
+K 25
+svn:wc:ra_dav:version-url
+V 72
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/Unit.java
+END
+Units.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/Units.java
+END
+Ellipsoid.java
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/Ellipsoid.java
+END
+MapMath.java
+K 25
+svn:wc:ra_dav:version-url
+V 75
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/MapMath.java
+END
+Datum.java
+K 25
+svn:wc:ra_dav:version-url
+V 73
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/Datum.java
+END
+DegreeUnit.java
+K 25
+svn:wc:ra_dav:version-url
+V 78
+/svnroot/jmapprojlib/!svn/ver/2/JMapProjLib/src/com/jhlabs/map/DegreeUnit.java
+END
