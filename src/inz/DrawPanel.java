@@ -27,12 +27,14 @@ import com.jhlabs.map.proj.MercatorProjection;
 
 public class DrawPanel extends JPanel {
 	
+	StreetMap streetMap;
 	
-	final double def_scale = 7680072;
-	double scale = def_scale;
+	public DrawPanel(StreetMap streetMap) {
+		this.streetMap = streetMap;
+	}
 	
 	public float scaleWidth(double value) {
-		return (float)(value * scale / def_scale);
+		return (float)(value * Static.mapRenderParams.scale / MapRenderParams.def_scale);
 	}
 	
 	public void setStyleCenterline(Graphics2D g) {
@@ -53,9 +55,24 @@ public class DrawPanel extends JPanel {
         g.setStroke(bs1);
 	}
 	
+	public void setStyleCar(Graphics2D g) {
+		g.setColor(Color.black);
+		BasicStroke bs1 = new BasicStroke(scaleWidth(1f));
+        g.setStroke(bs1);
+	}
+	
 	public void drawCars(Graphics2D g, StreetMap streetMap) {
+		setStyleCar(g);
 		for(Car car : streetMap.cars) {
-			
+			if (car.lane_pos < car.lane.real_length) {
+				//na trasie
+				double part = car.lane_pos / car.lane.real_length;
+				int x = car.lane.x1 + (int)Math.round((car.lane.x2 - car.lane.x1) * part);
+				int y = car.lane.y1 + (int)Math.round((car.lane.y2 - car.lane.y1) * part);
+				g.drawOval(x-5, y-5, 10, 10);
+			} else {
+				
+			}
 		}
 	}
 
@@ -104,7 +121,7 @@ public class DrawPanel extends JPanel {
         		lanes.addAll(n.exits);
         	}
 		}
-		streetMap.lanes = (Lane[])lanes.toArray();
+		streetMap.lanes = lanes.toArray(new Lane[0]);
 		
 		for (Lane l : lanes) {
 			g.drawLine(l.x1, l.y1, l.x2, l.y2);
@@ -126,8 +143,7 @@ public class DrawPanel extends JPanel {
         super.paintComponent(g);
 
         Graphics2D g2d = (Graphics2D) g;
-        StreetMap streetMap = OsmParser.parseMap("data/simple.osm");
-        OsmParser.prepareMap(streetMap);
+        
         
         g2d.setColor(Color.lightGray);
         BasicStroke bs1 = new BasicStroke(12f);
@@ -140,19 +156,11 @@ public class DrawPanel extends JPanel {
         int w = size.width - insets.left - insets.right;
         int h = size.height - insets.top - insets.bottom;
         
-        MapRenderParams rpar = MapHelpers.prepareDataToRender(streetMap, w, h);
-        this.scale = rpar.scale;
-        
-        MapHelpers.findLanesPositions(streetMap, rpar);
+        Static.mapRenderParams = MapHelpers.prepareDataToRender(streetMap, w, h);
+        System.out.println("Scale: " + Static.mapRenderParams.scale);
+        MapHelpers.findLanesPositions(streetMap, Static.mapRenderParams);
         
         drawMap(g2d, streetMap);
-        
-        Car testCar = new Car();
-        testCar.lane = streetMap.lanes[0];
-        testCar.nextLane = streetMap.lanes[0].exits.get(0);
-        testCar.lane_pos = 0;
-        streetMap.cars.add(testCar);
-        
         drawCars(g2d, streetMap);
     }
 }

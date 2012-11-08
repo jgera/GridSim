@@ -1,12 +1,22 @@
 package inz;
 
 import java.awt.geom.Point2D;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 
+import nu.xom.Builder;
+import nu.xom.Document;
+import nu.xom.Element;
+import nu.xom.ParsingException;
+
 import com.jhlabs.map.proj.MercatorProjection;
+import com.jhlabs.map.proj.Projection;
 
 import inz.model.Lane;
 import inz.model.Node;
@@ -17,30 +27,46 @@ public class MapHelpers {
 	
 	public static class MapRenderParams {
 		public double scale;
-		final double def_scale = 7680072;
+		public static final double def_scale = 1.85;
 		
 		public float scaleWidth(double value) {
 			return (float)(value * scale / def_scale);
 		}
 	}
-
-	public static MapRenderParams prepareDataToRender(StreetMap streetMap, int screenWidth, int screenHeight) {
-		
-		MercatorProjection projection = new MercatorProjection();
-        List<Point2D.Double> xys = new ArrayList<Point2D.Double>();
+	
+	public static Point2D.Double projectToXY(double lon, double lat) {
+		Projection projection = new MercatorProjection();
+		Point2D.Double p = projection.project(lon, lat, new Point2D.Double());
+		p.x = 4139593.33 * p.x;	//FIXME nie wiem skad ta wartosc
+		p.y = 4139593.33 * p.y;
+		return p;
+	}
+	
+	/**
+	 * Wykonuje projekcje wszystkich punktow na mapie na plaszczyzne XY.
+	 * @param streetMap
+	 */
+	public static void projectNodePoints(StreetMap streetMap) {
+		for (Way way : streetMap.ways) {
+			for (Node n : way.nodes) {
+				double latitude = n.lat * Math.PI / 180;
+				double longitude = n.lon * Math.PI / 180;
+				n.point = projectToXY(longitude, latitude);
+			}
+		}
+	}
+	
+	public static void normaliseNodePositions(StreetMap streetMap) {
+		HashMap<Long, Point2D.Double> xys = new HashMap<>();
         for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {
-        		double latitude = n.lat * Math.PI / 180;
-                double longitude = n.lon * Math.PI / 180;
-                Point2D.Double d = projection.project(longitude, latitude, new Point2D.Double());
-                n.point = d;
-                xys.add(d);
+                xys.put(n.id, n.point);
         	}
         }
-        
+		
         //szukamy œrodka
         double avg_x = 0, avg_y = 0;
-        for (Point2D p : xys) {
+        for (Point2D p : xys.values()) {
         	avg_x += p.getX();
         	avg_y += p.getY();
         }
@@ -48,12 +74,29 @@ public class MapHelpers {
         avg_y = avg_y / xys.size();
         
         //normalizacja
-        for (Point2D p : xys) {
+        for (Point2D.Double p : xys.values()) {
         	p.setLocation(p.getX() - avg_x, p.getY() - avg_y);
+        }
+	}
+	
+	/**
+	 * Uzupelnia elementy Node o wspolzedne ekranowe. Zwraca skale.
+	 * 
+	 * @param streetMap
+	 * @param screenWidth
+	 * @param screenHeight
+	 * @return
+	 */
+	public static MapRenderParams prepareDataToRender(StreetMap streetMap, int screenWidth, int screenHeight) {
+		HashMap<Long, Point2D.Double> xys = new HashMap<>();
+        for (Way way : streetMap.ways) {
+        	for (Node n : way.nodes) {
+                xys.put(n.id, new Point2D.Double(n.point.x, n.point.y));
+        	}
         }
         
         double biggestX =0, biggestY =0, smallestX =0, smallestY =0;
-        for (Point2D p : xys) {
+        for (Point2D p : xys.values()) {
         	if (xys.get(0) == p) { //pierwszy
         		biggestX = p.getX();
         		smallestX = p.getX();
@@ -81,16 +124,17 @@ public class MapHelpers {
         double scaleY = screenHeight / requiredHeight;
         double scale = scaleX < scaleY ? scaleX : scaleY;
         
-        scale = scale * 0.9;
+        scale = scale * 0.9;	//margines
         
-        for (Point2D p : xys) {
+        for (Point2D p : xys.values()) {
         	p.setLocation(p.getX() * scale + screenWidth/2, screenHeight/2 - p.getY() * scale);
         }
         
         for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {
-        		n.x = (int)Math.round(n.point.getX());
-        		n.y = (int)Math.round(n.point.getY());
+        		Point2D.Double p = xys.get(n.id);
+        		n.x = (int)Math.round(p.getX());
+        		n.y = (int)Math.round(p.getY());
         	}
         }
 
@@ -141,12 +185,121 @@ public class MapHelpers {
 			
 			//TODO ograniczyc zeby sie nie zamienia³y miejscami
 			
-			l.x1 = sx;
-			l.y1 = sy;
-			
-			l.x2 = ex;
-			l.y2 = ey;
+			l.setScreenLocations(sx, sy, ex, ey, params);
 		}
+	}
+	
+	
+/**
+ * Parsuje XMLa z OpenStreetMap. Tworzy obiekty Node i Way.
+ * @param filename nazwa pliku XML
+ * @return
+ */
+public static StreetMap parseMap(String filename) {
+		
+		try {
+			FileInputStream is = new FileInputStream(filename);
+			Builder parser = new Builder();
+			Document doc = parser.build(is);
+			Element root = doc.getRootElement();
+			
+			HashMap<Long, Node> nodes = new HashMap<>();
+			ArrayList<Way> ways = new ArrayList<>();
+			
+			for(int i = 0; i < root.getChildElements().size(); i++) {
+				Element e = root.getChildElements().get(i);
+				String name = e.getLocalName();
+				
+				if (name.equals("node")) {
+					Node n = new Node(	Long.parseLong(e.getAttributeValue("id")),
+										Double.parseDouble(e.getAttributeValue("lat")),
+										Double.parseDouble(e.getAttributeValue("lon")));
+					nodes.put(n.id, n);
+				} else if (name.equals("way")) {
+					
+					ArrayList<Node> way_nodes = new ArrayList<>();
+					
+					for(int j = 0; j < e.getChildElements().size(); j++) {
+						Element e2 = e.getChildElements().get(j);
+						if (e2.getLocalName().equals("nd")) {
+							Long id = Long.parseLong(e2.getAttributeValue("ref"));
+							Node n = nodes.get(id);
+							way_nodes.add(n);
+						}
+					}
+					
+					Way w = new Way(Long.parseLong(e.getAttributeValue("id")), way_nodes.toArray(new Node[0]));
+					ways.add(w);
+				}
+				
+				
+			}
+			
+			StreetMap map = new StreetMap(ways.toArray(new Way[0]));
+			return map;
+			
+		} catch (ParsingException | IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+	
+	}
+	
+/**
+ * Na podstawie obiektow Node tworzy odpowiadajace im obiekty Lane.
+ * @param map
+ */
+	public static void prepareMap(StreetMap map) {
+		for (Way way : map.ways) {
+			Node lastNode = null;
+			for (Node n : way.nodes) {
+				if (n == way.nodes[0]) {	// pierwszy
+					lastNode = n;
+				} else {					// nastepny
+					Lane laneForward = new Lane(lastNode, n);	 //TODO zrobic ref
+					Lane laneBackward = new Lane(n, lastNode);
+					
+					for (Lane l : lastNode.enters) {
+						l.exits.add(laneForward);
+					}
+					
+					for (Lane l : lastNode.exits) {
+						laneBackward.exits.add(l);
+					}
+					
+					for (Lane l : n.enters) {
+						l.exits.add(laneBackward);
+					}
+					
+					for (Lane l : n.exits) {
+						laneForward.exits.add(l);
+					}
+					
+					lastNode.exits.add(laneForward);
+					n.enters.add(laneForward);
+					
+					n.exits.add(laneBackward);
+					lastNode.enters.add(laneBackward);
+				}
+				lastNode = n;
+			}
+		}
+		
+		//nawrotka na œlepej ulicy
+		//TODO SINK / SOURCE
+		for (Way way : map.ways) {
+			for (Node n : way.nodes) {
+				for (Lane l : n.enters) {
+					if (l.exits.size() == 0) {
+						for (Lane l2 : n.exits) {
+							l.exits.add(l2);
+						}
+					}
+				}
+			}
+		}
+		
 	}
 }
 	

@@ -18,7 +18,7 @@ public class Node {
 	public int x;
 	public int y;
 	
-	public Point2D point;
+	public Point2D.Double point;
 	
 	public ArrayList<Lane> enters = new ArrayList<>();
 	public ArrayList<Lane> exits = new ArrayList<>();
