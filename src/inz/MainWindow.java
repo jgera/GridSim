@@ -2,6 +2,7 @@ package inz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 import inz.model.Car;
 import inz.model.StreetMap;
@@ -32,8 +33,7 @@ public class MainWindow extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		
-		timer = new Timer(10000, this);
-		timer.setInitialDelay(10);
+		timer = new Timer(50, this);
 		timer.start(); 
 	}
 	
@@ -66,18 +66,21 @@ public class MainWindow extends JFrame implements ActionListener {
 		for(Car car : streetMap.cars) {
 			double move = car.speed * 10 / 36; // przesuniecie w skali swiata [m/s]
 			car.lane_pos += move * timeDelta / 1000;
-			double connect_length = 20; // m
-			
-			if (car.lane_pos > car.lane.real_length + connect_length) { //nastepny fragment
-				car.lane = car.nextLane;
-				car.nextLane = car.lane.exits.get(0);
-				car.lane_pos = 0;
+			if (car.lane_pos > car.lane.real_length + Static.intersectionLength) { //nastepny fragment
+				makeJump(car);
 				System.out.println("jmp");
 			} else if (car.lane_pos > car.lane.real_length) { //na zlaczeniu
-				System.out.println("conn");
+				// wait
 			}
 		}
 		dpnl.repaint();
 		timer.restart();
+	}
+	
+	private void makeJump(Car car) {
+		car.lane = car.nextLane;
+		int rnd_exit = new Random().nextInt(car.lane.exits.size());
+		car.nextLane = car.lane.exits.get(rnd_exit);
+		car.lane_pos = 0;
 	}
 }

@@ -55,6 +55,12 @@ public class DrawPanel extends JPanel {
         g.setStroke(bs1);
 	}
 	
+	public void setStyleLane2(Graphics2D g) {
+		g.setColor(Color.red);
+		BasicStroke bs1 = new BasicStroke(scaleWidth(0.5f));
+        g.setStroke(bs1);
+	}
+	
 	public void setStyleCar(Graphics2D g) {
 		g.setColor(Color.black);
 		BasicStroke bs1 = new BasicStroke(scaleWidth(1f));
@@ -71,7 +77,10 @@ public class DrawPanel extends JPanel {
 				int y = car.lane.y1 + (int)Math.round((car.lane.y2 - car.lane.y1) * part);
 				g.drawOval(x-5, y-5, 10, 10);
 			} else {
-				
+				double part = (car.lane_pos - car.lane.real_length) / Static.intersectionLength;
+				int x = car.lane.x2 + (int)Math.round((car.nextLane.x1 - car.lane.x2) * part);
+				int y = car.lane.y2 + (int)Math.round((car.nextLane.y1 - car.lane.y2) * part);
+				g.drawOval(x-5, y-5, 10, 10);
 			}
 		}
 	}
@@ -123,9 +132,12 @@ public class DrawPanel extends JPanel {
 		}
 		streetMap.lanes = lanes.toArray(new Lane[0]);
 		
+		
 		for (Lane l : lanes) {
+			setStyleLane(g);
 			g.drawLine(l.x1, l.y1, l.x2, l.y2);
 			for (Lane e : l.exits) {
+				setStyleLane2(g);
 				g.drawLine(l.x2, l.y2, e.x1, e.y1);
 			}
 		}
@@ -157,7 +169,7 @@ public class DrawPanel extends JPanel {
         int h = size.height - insets.top - insets.bottom;
         
         Static.mapRenderParams = MapHelpers.prepareDataToRender(streetMap, w, h);
-        System.out.println("Scale: " + Static.mapRenderParams.scale);
+        //System.out.println("Scale: " + Static.mapRenderParams.scale);
         MapHelpers.findLanesPositions(streetMap, Static.mapRenderParams);
         
         drawMap(g2d, streetMap);
