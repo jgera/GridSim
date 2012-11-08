@@ -1,5 +1,7 @@
 package inz;
 
+import inz.model.StreetMap;
+
 import javax.swing.SwingUtilities;
 
 public class Starter {
@@ -10,7 +12,13 @@ public class Starter {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                MainWindow ex = new MainWindow();
+            	StreetMap streetMap = MapHelpers.parseMap("data/simple.osm");
+        		
+        		MapHelpers.projectNodePoints(streetMap);
+        		MapHelpers.normaliseNodePositions(streetMap);
+        		MapHelpers.prepareMap(streetMap);
+        		
+                MainWindow ex = new MainWindow(streetMap);
                 ex.setVisible(true);
             }
         });

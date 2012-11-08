@@ -2,28 +2,21 @@ package inz;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Random;
 
-import inz.model.Car;
 import inz.model.StreetMap;
 
 import javax.swing.JFrame;
-import javax.swing.SwingUtilities;
 import javax.swing.Timer;
 
 public class MainWindow extends JFrame implements ActionListener {
 	
+	private static final long serialVersionUID = 3823711528095863438L;
 	StreetMap streetMap;
 	DrawPanel dpnl;
 	Timer timer;
 	
-	
-	public MainWindow() {
-		
-		streetMap = MapHelpers.parseMap("data/simple.osm");
-		MapHelpers.projectNodePoints(streetMap);
-		MapHelpers.normaliseNodePositions(streetMap);
-		MapHelpers.prepareMap(streetMap);
+	public MainWindow(StreetMap streetMap) {
+		this.streetMap = streetMap;
 
 		dpnl = new DrawPanel(streetMap);
 		add(dpnl);
