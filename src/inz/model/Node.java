@@ -22,4 +22,6 @@ public class Node {
 	
 	public ArrayList<Lane> enters = new ArrayList<>();
 	public ArrayList<Lane> exits = new ArrayList<>();
+	
+	public boolean intersectionTaken = false;
 }

@@ -5,9 +5,6 @@ import inz.MapHelpers.MapRenderParams;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
-import com.jhlabs.map.proj.LambertConformalConicProjection;
-import com.jhlabs.map.proj.Projection;
-
 public class Lane {
 	public ArrayList<Lane> exits = new ArrayList<>();
 	

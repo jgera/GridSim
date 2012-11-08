@@ -14,19 +14,14 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
 import java.awt.RenderingHints;
-import java.awt.geom.Point2D;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import javax.swing.JPanel;
 
-import com.jhlabs.map.proj.MercatorProjection;
-
 public class DrawPanel extends JPanel {
 	
+	private static final long serialVersionUID = 3026058640922011855L;
 	StreetMap streetMap;
 	
 	public DrawPanel(StreetMap streetMap) {
@@ -56,7 +51,7 @@ public class DrawPanel extends JPanel {
 	}
 	
 	public void setStyleLane2(Graphics2D g) {
-		g.setColor(Color.red);
+		g.setColor(Color.yellow);
 		BasicStroke bs1 = new BasicStroke(scaleWidth(0.5f));
         g.setStroke(bs1);
 	}
@@ -138,10 +133,15 @@ public class DrawPanel extends JPanel {
 			g.drawLine(l.x1, l.y1, l.x2, l.y2);
 			for (Lane e : l.exits) {
 				setStyleLane2(g);
+				if (e.node1.intersectionTaken) {
+					g.setColor(Color.red);
+				}
 				g.drawLine(l.x2, l.y2, e.x1, e.y1);
 			}
 		}
 		
+		
+		//podpisy
 		g.setColor(Color.red);
 		for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {

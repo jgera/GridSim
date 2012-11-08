@@ -29,7 +29,6 @@ public class Sim {
 				makeJump(car);
 				System.out.println("jmp");
 			} else if (car.lane_pos > car.lane.real_length) { //na zlaczeniu
-				
 				if (car.lane.exits.size() > 1) 
 					car.lane.node2.intersectionTaken = true;
 			}
@@ -38,12 +37,14 @@ public class Sim {
 	}
 	
 	private static boolean isIntersectionFree(StreetMap streetMap, Car car) {
-		//TODO ?!? !
+		// TODO :)
 		return false;
 	}
 	
 	private static void getDistanceToObstacle(StreetMap streetMap, Car car) {
-		//TODO
+		//closest car (until intersection)
+		//closest intersection
+		//closest turnaround
 	}
 	
 	private static void makeJump(Car car) {
