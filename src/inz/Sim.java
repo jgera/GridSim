@@ -1,8 +1,15 @@
 package inz;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map.Entry;
 import java.util.Random;
+import java.util.Set;
 
 import inz.model.Car;
+import inz.model.Lane;
 import inz.model.StreetMap;
 
 public class Sim {
@@ -10,12 +17,10 @@ public class Sim {
 	public static double intersectionLength = 15; // [m]
 	
 	public static void init(StreetMap streetMap) {
-		Car testCar = new Car();
-        testCar.lane = streetMap.lanes[0];
-        testCar.nextLane = streetMap.lanes[0].exits.get(0);
-        testCar.lane_pos = streetMap.lanes[0].real_length * 0.5;
-        testCar.speed = 40; //	km/h
-        streetMap.cars.add(testCar);
+		for(int i = 0; i < 1; i++) {
+			int rndLane = new Random().nextInt(streetMap.lanes.length);
+			addCar(streetMap, streetMap.lanes[rndLane]);
+		}
 	}
 
 	public static void tick(StreetMap streetMap, long timeDelta) {
@@ -33,18 +38,76 @@ public class Sim {
 					car.lane.node2.intersectionTaken = true;
 			}
 			
+			System.out.println("Closest obstacle: " + getDistanceToObstacle(streetMap, car));
+			
 		}
 	}
 	
-	private static boolean isIntersectionFree(StreetMap streetMap, Car car) {
-		// TODO :)
-		return false;
+	private static void addCar(StreetMap streetMap, Lane lane) {
+		Car testCar = new Car();
+        testCar.lane = lane;
+        testCar.nextLane = lane.exits.get(0);
+        testCar.lane_pos = 0;
+        testCar.speed = 40; //	km/h
+        streetMap.cars.add(testCar);
 	}
 	
-	private static void getDistanceToObstacle(StreetMap streetMap, Car car) {
+	
+	private static double getDistanceToObstacle(StreetMap streetMap, Car car) {
+		
+		List<Lane> straightRoad = new ArrayList();	// odcinek "widocznosci"
+		straightRoad.add(car.lane);
+		Lane l = car.lane;
+		while(l.exits.size() == 1) {
+			l = l.exits.get(0);
+			straightRoad.add(l);
+		}
+		
 		//closest car (until intersection)
-		//closest intersection
+		HashMap<Double, Car> closeCars = new HashMap<>();
+		for (Car c : streetMap.cars) {
+			if (c == car) 
+				continue;
+			
+			if (straightRoad.contains(c.lane)) {
+				double distance = 0;
+				for (Lane lane : straightRoad) {
+					if (lane == c.lane) {
+						distance += c.lane_pos;	
+						break;
+					} else {
+						distance += lane.real_length;
+						distance += intersectionLength;
+					}
+				}
+				distance -= car.lane_pos;
+				closeCars.put(distance, c);
+			}
+		}
+		double closestCarDistance = -1;
+		for (Entry<Double, Car> e : closeCars.entrySet()) {
+			if (closestCarDistance == -1)
+				closestCarDistance = e.getKey();
+			
+			if (e.getKey() < closestCarDistance) {
+				closestCarDistance = e.getKey();
+			}
+		}
+		
+		//closest intersections
+		double intersectionDistance = -1;
+		for (Lane lane : straightRoad) {
+			intersectionDistance += lane.real_length;
+			intersectionDistance += intersectionLength;
+		}
+		intersectionDistance -= car.lane_pos;
+		
 		//closest turnaround
+		//TODO
+		if (closestCarDistance == -1) {
+			return intersectionDistance;
+		}
+		return intersectionDistance < closestCarDistance ? intersectionDistance : closestCarDistance;
 	}
 	
 	private static void makeJump(Car car) {
