@@ -77,7 +77,7 @@ public class DrawPanel extends JPanel {
 				int y = car.lane.y1 + (int)Math.round((car.lane.y2 - car.lane.y1) * part);
 				g.drawOval(x-5, y-5, 10, 10);
 			} else {
-				double part = (car.lane_pos - car.lane.real_length) / Static.intersectionLength;
+				double part = (car.lane_pos - car.lane.real_length) / Sim.intersectionLength;
 				int x = car.lane.x2 + (int)Math.round((car.nextLane.x1 - car.lane.x2) * part);
 				int y = car.lane.y2 + (int)Math.round((car.nextLane.y1 - car.lane.y2) * part);
 				g.drawOval(x-5, y-5, 10, 10);
