@@ -16,8 +16,7 @@ public class Lane {
 	
 	//world
 	public double real_length; //in real world
-	public Point2D.Double real_start;
-	public Point2D.Double real_end;
+	public Point2D.Double real_start, real_end;
 	
 	//screen
 	public int x1,y1,x2,y2;
@@ -25,10 +24,6 @@ public class Lane {
 	public Lane(Node n1, Node n2) {
 		this.node1 = n1;
 		this.node2 = n2;
-		
-		this.real_start = node1.point;
-		this.real_end = node2.point;
-		this.real_length = real_start.distance(real_end);
 	}
 	
 }

@@ -212,6 +212,7 @@ public class MapHelpers {
 			
 			l.real_start = new Point2D.Double(sx, sy);
 			l.real_end = new Point2D.Double(ex, ey);
+			l.real_length = l.real_start.distance(l.real_end);
 		}
 	}
 	
