@@ -17,6 +17,8 @@ public class Starter {
         		MapHelpers.projectNodePoints(streetMap);
         		MapHelpers.normaliseNodePositions(streetMap);
         		MapHelpers.prepareMap(streetMap);
+        		MapHelpers.findLanesPositions(streetMap);
+                MapHelpers.findConnectorLengths(streetMap);
         		
                 MainWindow ex = new MainWindow(streetMap);
                 ex.setVisible(true);

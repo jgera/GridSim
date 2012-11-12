@@ -170,9 +170,6 @@ public class DrawPanel extends JPanel {
         int h = size.height - insets.top - insets.bottom;
         
         Static.mapRenderParams = MapHelpers.prepareDataToRender(streetMap, w, h);
-        //System.out.println("Scale: " + Static.mapRenderParams.scale);
-        MapHelpers.findLanesPositions(streetMap, Static.mapRenderParams);
-        MapHelpers.findConnectorLengths(streetMap, Static.mapRenderParams);
         
         drawMap(g2d, streetMap);
         drawCars(g2d, streetMap);

@@ -134,6 +134,12 @@ public class MapHelpers {
         		Point2D.Double p = xys.get(n.id);
         		n.x = (int)Math.round(p.getX());
         		n.y = (int)Math.round(p.getY());
+        		for (Lane l : n.exits) {				
+        			l.x1 = (int)Math.round(l.real_start.x * scale + screenWidth/2);
+            		l.y1 = (int)Math.round(screenHeight/2 - l.real_start.y * scale);
+            		l.x2 = (int)Math.round(l.real_end.x * scale + screenWidth/2);
+            		l.y2 = (int)Math.round(screenHeight/2 - l.real_end.y * scale);
+        		}
         	}
         }
 
@@ -142,7 +148,7 @@ public class MapHelpers {
         return ret;
 	}
 	
-	public static void findConnectorLengths(StreetMap streetMap, MapRenderParams params) {
+	public static void findConnectorLengths(StreetMap streetMap) {
 		Set<Lane> lanes = new HashSet<Lane>();
 		for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {
@@ -152,8 +158,7 @@ public class MapHelpers {
 		}
 		for (Lane l : lanes) {
 			for (LaneExit exit : l.exits) {
-				double screenDistance = Math.sqrt((l.x2 - exit.lane.x1)*(l.x2 - exit.lane.x1) + (l.y2 - exit.lane.y1)*(l.y2 - exit.lane.y1));
-				exit.distance = screenDistance;
+				exit.distance = l.real_end.distance(exit.lane.real_start);
 			}
 		}
 	}
@@ -163,7 +168,7 @@ public class MapHelpers {
 	 * @param streetMap
 	 * @param params
 	 */
-	public static void findLanesPositions(StreetMap streetMap, MapRenderParams params) {
+	public static void findLanesPositions(StreetMap streetMap) {
 		Set<Lane> lanes = new HashSet<Lane>();
 		for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {
@@ -176,21 +181,21 @@ public class MapHelpers {
 			Node n2 = l.node2;
 
 			//wektor prostopadly
-			double x = n2.x - n1.x;
-			double y = -(n2.y - n1.y);
+			double x = n2.point.x - n1.point.x;
+			double y = -(n2.point.y - n1.point.y);
 			double len = Math.sqrt(x*x + y*y);
 			double p_x = y / len; //?!WTF
 			double p_y = x / len;
 			
 			//przesuniecie do osi
-			double margin = params.scaleWidth(5f);
-			int sx = (int)Math.round(n1.x + p_x * margin);
-			int sy = (int)Math.round(n1.y + p_y * margin);
-			int ex = (int)Math.round(n2.x + p_x * margin);
-			int ey = (int)Math.round(n2.y + p_y * margin);
+			double margin = 2; // [m]
+			double sx = n1.point.x + p_x * margin;
+			double sy = n1.point.y + p_y * margin;
+			double ex = n2.point.x + p_x * margin;
+			double ey = n2.point.y + p_y * margin;
 			
 			//przesuniecie od koncowek
-			double margin2 = params.scaleWidth(5f);
+			double margin2 = 2; // [m]
 			double nx = (ex - sx);
 			double ny = (ey - sy);
 			double nlen = Math.sqrt((nx*nx+ny*ny));
@@ -198,14 +203,15 @@ public class MapHelpers {
 			ny = ny / nlen;
 			nx = nx * margin2;
 			ny = ny * margin2;
-			ex -= (int)Math.round(nx);
-			ey -= (int)Math.round(ny);
-			sx += (int)Math.round(nx);
-			sy += (int)Math.round(ny);
+			ex -= nx;
+			ey -= ny;
+			sx += nx;
+			sy += ny;
 			
 			//TODO ograniczyc zeby sie nie zamienia³y miejscami
 			
-			l.setScreenLocations(sx, sy, ex, ey, params);
+			l.real_start = new Point2D.Double(sx, sy);
+			l.real_end = new Point2D.Double(ex, ey);
 		}
 	}
 	
