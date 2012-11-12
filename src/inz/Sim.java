@@ -2,19 +2,15 @@ package inz;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
-import java.util.Set;
 
 import inz.model.Car;
 import inz.model.Lane;
 import inz.model.StreetMap;
 
 public class Sim {
-	
-	public static double intersectionLength = 15; // [m]
 	
 	public static void init(StreetMap streetMap) {
 		for(int i = 0; i < 1; i++) {
@@ -54,7 +50,7 @@ public class Sim {
 	
 	private static double getDistanceToObstacle(StreetMap streetMap, Car car) {
 		
-		List<Lane> straightRoad = new ArrayList();	// odcinek "widocznosci"
+		List<Lane> straightRoad = new ArrayList<>();	// odcinek "widocznosci"
 		straightRoad.add(car.lane);
 		Lane l = car.lane;
 		while(l.exits.size() == 1) {
@@ -76,7 +72,7 @@ public class Sim {
 						break;
 					} else {
 						distance += lane.real_length;
-						distance += intersectionLength;
+						distance += lane.exits.get(0).distance;
 					}
 				}
 				distance -= car.lane_pos;
@@ -97,7 +93,7 @@ public class Sim {
 		double intersectionDistance = -1;
 		for (Lane lane : straightRoad) {
 			intersectionDistance += lane.real_length;
-			intersectionDistance += intersectionLength;
+			intersectionDistance += lane.exits.get(0).distance;
 		}
 		intersectionDistance -= car.lane_pos;
 		

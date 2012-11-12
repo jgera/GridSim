@@ -1,15 +1,10 @@
 package inz.model;
 
-import inz.MapHelpers.MapRenderParams;
-
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class Lane {
 	public ArrayList<LaneExit> exits = new ArrayList<>();
-	
-//	public ArrayList<Lane> exits = new ArrayList<>();
-//	public ArrayList<Double> connectors = new ArrayList<>();
 	
 	public Node node1;
 	public Node node2;
