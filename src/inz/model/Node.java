@@ -12,16 +12,21 @@ public class Node {
 	}
 	
 	public long id;
-	public double lat;
-	public double lon;
-	
-	public int x;
-	public int y;
-	
-	public Point2D.Double point;
 	
 	public ArrayList<Lane> enters = new ArrayList<>();
 	public ArrayList<Lane> exits = new ArrayList<>();
 	
+	//world
+	public double lat;
+	public double lon;
+	
+	//world normalised
+	public Point2D.Double point;
+	
+	//screen
+	public int x;
+	public int y;
+	
+	//state
 	public boolean intersectionTaken = false;
 }

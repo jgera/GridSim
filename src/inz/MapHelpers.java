@@ -17,6 +17,7 @@ import com.jhlabs.map.proj.MercatorProjection;
 import com.jhlabs.map.proj.Projection;
 
 import inz.model.Lane;
+import inz.model.LaneExit;
 import inz.model.Node;
 import inz.model.StreetMap;
 import inz.model.Way;
@@ -141,6 +142,27 @@ public class MapHelpers {
         return ret;
 	}
 	
+	public static void findConnectorLengths(StreetMap streetMap, MapRenderParams params) {
+		Set<Lane> lanes = new HashSet<Lane>();
+		for (Way way : streetMap.ways) {
+        	for (Node n : way.nodes) {
+        		lanes.addAll(n.enters);
+        		lanes.addAll(n.exits);
+        	}
+		}
+		for (Lane l : lanes) {
+			for (LaneExit exit : l.exits) {
+				double screenDistance = Math.sqrt((l.x2 - exit.lane.x1)*(l.x2 - exit.lane.x1) + (l.y2 - exit.lane.y1)*(l.y2 - exit.lane.y1));
+				exit.distance = screenDistance;
+			}
+		}
+	}
+	
+	/**
+	 * Znajduje pozycje ekranowe obiektow Lane.
+	 * @param streetMap
+	 * @param params
+	 */
 	public static void findLanesPositions(StreetMap streetMap, MapRenderParams params) {
 		Set<Lane> lanes = new HashSet<Lane>();
 		for (Way way : streetMap.ways) {
@@ -259,19 +281,19 @@ public static StreetMap parseMap(String filename) {
 					Lane laneBackward = new Lane(n, lastNode);
 					
 					for (Lane l : lastNode.enters) {
-						l.exits.add(laneForward);
+						l.exits.add(new LaneExit(laneForward));
 					}
 					
 					for (Lane l : lastNode.exits) {
-						laneBackward.exits.add(l);
+						laneBackward.exits.add(new LaneExit(l));
 					}
 					
 					for (Lane l : n.enters) {
-						l.exits.add(laneBackward);
+						l.exits.add(new LaneExit(laneBackward));
 					}
 					
 					for (Lane l : n.exits) {
-						laneForward.exits.add(l);
+						laneForward.exits.add(new LaneExit(l));
 					}
 					
 					lastNode.exits.add(laneForward);
@@ -291,7 +313,7 @@ public static StreetMap parseMap(String filename) {
 				for (Lane l : n.enters) {
 					if (l.exits.size() == 0) {
 						for (Lane l2 : n.exits) {
-							l.exits.add(l2);
+							l.exits.add(new LaneExit(l2));
 						}
 					}
 				}

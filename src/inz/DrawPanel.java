@@ -3,6 +3,7 @@ package inz;
 import inz.MapHelpers.MapRenderParams;
 import inz.model.Car;
 import inz.model.Lane;
+import inz.model.LaneExit;
 import inz.model.Node;
 import inz.model.StreetMap;
 import inz.model.Way;
@@ -72,9 +73,9 @@ public class DrawPanel extends JPanel {
 				int y = car.lane.y1 + (int)Math.round((car.lane.y2 - car.lane.y1) * part);
 				g.drawOval(x-5, y-5, 10, 10);
 			} else {
-				double part = (car.lane_pos - car.lane.real_length) / Sim.intersectionLength;
-				int x = car.lane.x2 + (int)Math.round((car.nextLane.x1 - car.lane.x2) * part);
-				int y = car.lane.y2 + (int)Math.round((car.nextLane.y1 - car.lane.y2) * part);
+				double part = (car.lane_pos - car.lane.real_length) / car.nextLane.distance;
+				int x = car.lane.x2 + (int)Math.round((car.nextLane.lane.x1 - car.lane.x2) * part);		//FIXME .lane. sugeruje ze odl tez sie liczy
+				int y = car.lane.y2 + (int)Math.round((car.nextLane.lane.y1 - car.lane.y2) * part);
 				g.drawOval(x-5, y-5, 10, 10);
 			}
 		}
@@ -131,12 +132,12 @@ public class DrawPanel extends JPanel {
 		for (Lane l : lanes) {
 			setStyleLane(g);
 			g.drawLine(l.x1, l.y1, l.x2, l.y2);
-			for (Lane e : l.exits) {
+			for (LaneExit e : l.exits) {
 				setStyleLane2(g);
-				if (e.node1.intersectionTaken) {
+				if (e.lane.node1.intersectionTaken) {
 					g.setColor(Color.red);
 				}
-				g.drawLine(l.x2, l.y2, e.x1, e.y1);
+				g.drawLine(l.x2, l.y2, e.lane.x1, e.lane.y1);
 			}
 		}
 		
@@ -171,6 +172,7 @@ public class DrawPanel extends JPanel {
         Static.mapRenderParams = MapHelpers.prepareDataToRender(streetMap, w, h);
         //System.out.println("Scale: " + Static.mapRenderParams.scale);
         MapHelpers.findLanesPositions(streetMap, Static.mapRenderParams);
+        MapHelpers.findConnectorLengths(streetMap, Static.mapRenderParams);
         
         drawMap(g2d, streetMap);
         drawCars(g2d, streetMap);

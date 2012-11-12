@@ -10,5 +10,4 @@ public class Way {
 		this.nodes = nodes;
 	}
 	
-	
 }

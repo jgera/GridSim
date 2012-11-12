@@ -29,16 +29,15 @@ public class Sim {
 			double move = car.speed * 10 / 36; // przesuniecie w skali swiata [m/s]
 			car.lane_pos += move * timeDelta / 1000;
 			
-			if (car.lane_pos > car.lane.real_length + Sim.intersectionLength) { //nastepny fragment
+			if (car.lane_pos > car.lane.real_length + car.nextLane.distance) { //nastepny fragment
 				car.lane.node2.intersectionTaken = false;
 				makeJump(car);
-				System.out.println("jmp");
 			} else if (car.lane_pos > car.lane.real_length) { //na zlaczeniu
 				if (car.lane.exits.size() > 1) 
 					car.lane.node2.intersectionTaken = true;
 			}
 			
-			System.out.println("Closest obstacle: " + getDistanceToObstacle(streetMap, car));
+			//System.out.println("Closest obstacle: " + getDistanceToObstacle(streetMap, car));
 			
 		}
 	}
@@ -59,7 +58,7 @@ public class Sim {
 		straightRoad.add(car.lane);
 		Lane l = car.lane;
 		while(l.exits.size() == 1) {
-			l = l.exits.get(0);
+			l = l.exits.get(0).lane;
 			straightRoad.add(l);
 		}
 		
@@ -111,7 +110,8 @@ public class Sim {
 	}
 	
 	private static void makeJump(Car car) {
-		car.lane = car.nextLane;
+		System.out.println("jmp");
+		car.lane = car.nextLane.lane;
 		int rnd_exit = new Random().nextInt(car.lane.exits.size());
 		car.nextLane = car.lane.exits.get(rnd_exit);
 		car.lane_pos = 0;
