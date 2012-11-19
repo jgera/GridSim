@@ -13,9 +13,9 @@ import inz.model.StreetMap;
 public class Sim {
 	
 	public static void init(StreetMap streetMap) {
-		for(int i = 0; i < 1; i++) {
+		for(int i = 0; i < 10; i++) {
 			int rndLane = new Random().nextInt(streetMap.lanes.length);
-			addCar(streetMap, streetMap.lanes[rndLane]);
+			addCar(streetMap, streetMap.lanes[rndLane], i == 0);
 		}
 	}
 
@@ -33,24 +33,63 @@ public class Sim {
 					car.lane.node2.intersectionTaken = true;
 			}
 			
-			//System.out.println("Closest obstacle: " + getDistanceToObstacle(streetMap, car));
+			Obstacle obst = getDistanceToObstacle(streetMap, car); 
+			double obstDistance  = obst.distance;
 			
+			double vD = 0; 	// velocity difference
+			
+			if (obst.car != null) {
+				vD = car.speed - obst.car.speed;
+			} else {
+				vD = car.speed;
+			}
+			
+			vD = vD * 10f / 36f;
+			
+			double v0 = 70 * 10f / 36f;	//desired speed on free road		[m/s]
+			double T = 5; //safe time							[s]
+			double a = 3; //acceleration						[m/s^2]
+			double b = 7; //breakign deceleration				[m/s^2]
+			double s0 = 7; //safe distance (bumper to bumper)	[m]
+			double beta = 6;  //acceleration exponent			[?]
+			
+			double s = obstDistance;
+			double v = car.speed * 10f / 36f; 
+			
+			double ss = s0 + (v*T + 
+						(v * vD) / (2 * Math.sqrt(a*b))
+					);	//desired distance
+			
+			double dv_dt = a * (
+					1 -  Math.pow((v/v0), beta)
+					- Math.pow((ss/s),2)
+				);
+			
+			car.speed = car.speed + dv_dt * (timeDelta/1000f) * 3.6f;
+			
+			if (car.isFocused) {
+				System.out.println("Closest obstacle: " + Math.round(obstDistance));
+				System.out.println("Speed: " + Math.round(car.speed));
+				System.out.println("Desired distance: " + Math.round(ss));
+			}
+
 		}
 	}
 	
-	private static void addCar(StreetMap streetMap, Lane lane) {
+	private static void addCar(StreetMap streetMap, Lane lane, boolean focused) {
 		Car testCar = new Car();
         testCar.lane = lane;
         testCar.nextLane = lane.exits.get(0);
         testCar.lane_pos = 0;
+        testCar.isFocused = focused;
         testCar.speed = 40; //	km/h
         streetMap.cars.add(testCar);
 	}
 	
 	
-	private static double getDistanceToObstacle(StreetMap streetMap, Car car) {
+	private static Obstacle getDistanceToObstacle(StreetMap streetMap, Car car) {
 		
-		List<Lane> straightRoad = new ArrayList<>();	// odcinek "widocznosci"
+		List<Lane> straightRoad = new ArrayList<Lane>();	// odcinek "widocznosci"
 		straightRoad.add(car.lane);
 		Lane l = car.lane;
 		while(l.exits.size() == 1) {
@@ -59,7 +98,7 @@ public class Sim {
 		}
 		
 		//closest car (until intersection)
-		HashMap<Double, Car> closeCars = new HashMap<>();
+		HashMap<Double, Car> closeCars = new HashMap<Double, Car>();
 		for (Car c : streetMap.cars) {
 			if (c == car) 
 				continue;
@@ -79,13 +118,12 @@ public class Sim {
 				closeCars.put(distance, c);
 			}
 		}
-		double closestCarDistance = -1;
-		for (Entry<Double, Car> e : closeCars.entrySet()) {
-			if (closestCarDistance == -1)
+		Car closestCar = null;
+		double closestCarDistance = 1000000;
+		for (Entry<Double, Car> e : closeCars.entrySet()) {			
+			if (e.getKey() < closestCarDistance && e.getKey() > 0) {
 				closestCarDistance = e.getKey();
-			
-			if (e.getKey() < closestCarDistance) {
-				closestCarDistance = e.getKey();
+				closestCar = e.getValue();
 			}
 		}
 		
@@ -99,19 +137,36 @@ public class Sim {
 		
 		//closest turnaround
 		//TODO
+		
 		if (closestCarDistance == -1) {
-			return intersectionDistance;
+			Obstacle o = new Obstacle();
+			o.distance = intersectionDistance;
+			return o;
 		}
-		return intersectionDistance < closestCarDistance ? intersectionDistance : closestCarDistance;
+		
+		if (intersectionDistance < closestCarDistance) {
+			Obstacle o = new Obstacle();
+			o.distance = intersectionDistance;
+			return o;
+		} else {
+			Obstacle o = new Obstacle();
+			o.car = closestCar;
+			o.distance = closestCarDistance;
+			return o;
+		}
+		
+		
+	}
+	
+	private static class Obstacle {
+		Car car = null;
+		double distance;
 	}
 	
 	private static void makeJump(Car car) {
-		System.out.println("jmp");
 		car.lane = car.nextLane.lane;
 		int rnd_exit = new Random().nextInt(car.lane.exits.size());
 		car.nextLane = car.lane.exits.get(rnd_exit);
 		car.lane_pos = 0;
-		
-		
 	}
 }

@@ -8,4 +8,6 @@ public class Car {
 	
 	public LaneExit nextLane;
 	public double speed; //		km/h
+	
+	public boolean isFocused;
 }

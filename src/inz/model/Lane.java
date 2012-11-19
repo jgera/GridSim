@@ -4,7 +4,7 @@ import java.awt.geom.Point2D;
 import java.util.ArrayList;
 
 public class Lane {
-	public ArrayList<LaneExit> exits = new ArrayList<>();
+	public ArrayList<LaneExit> exits = new ArrayList<LaneExit>();
 	
 	public Node node1;
 	public Node node2;

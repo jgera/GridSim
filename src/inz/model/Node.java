@@ -13,8 +13,8 @@ public class Node {
 	
 	public long id;
 	
-	public ArrayList<Lane> enters = new ArrayList<>();
-	public ArrayList<Lane> exits = new ArrayList<>();
+	public ArrayList<Lane> enters = new ArrayList<Lane>();
+	public ArrayList<Lane> exits = new ArrayList<Lane>();
 	
 	//world
 	public double lat;

@@ -66,6 +66,11 @@ public class DrawPanel extends JPanel {
 	public void drawCars(Graphics2D g, StreetMap streetMap) {
 		setStyleCar(g);
 		for(Car car : streetMap.cars) {
+			if (car.isFocused) {
+				g.setColor(Color.blue);
+			} else {
+				g.setColor(Color.black);
+			}
 			if (car.lane_pos < car.lane.real_length) {
 				//na trasie
 				double part = car.lane_pos / car.lane.real_length;

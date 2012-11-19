@@ -22,7 +22,7 @@ package com.jhlabs.map.proj;
 import java.awt.geom.*;
 import com.jhlabs.map.*;
 
-//public class ModStereoProjection extends Projection {
+public class ModStereoProjection extends Projection {
 //
 //	private final static int MAX_ITER = 10;
 //	private final static double LOOP_TOL = 1e-7;
@@ -235,4 +235,4 @@ import com.jhlabs.map.*;
 //		return "Nell";
 //	}
 //
-//}
+}

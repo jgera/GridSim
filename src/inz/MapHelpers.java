@@ -56,7 +56,7 @@ public class MapHelpers {
 	}
 	
 	public static void normaliseNodePositions(StreetMap streetMap) {
-		HashMap<Long, Point2D.Double> xys = new HashMap<>();
+		HashMap<Long, Point2D.Double> xys = new HashMap<Long, Point2D.Double>();
         for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {
                 xys.put(n.id, n.point);
@@ -87,7 +87,7 @@ public class MapHelpers {
 	 * @return
 	 */
 	public static MapRenderParams prepareDataToRender(StreetMap streetMap, int screenWidth, int screenHeight) {
-		HashMap<Long, Point2D.Double> xys = new HashMap<>();
+		HashMap<Long, Point2D.Double> xys = new HashMap<Long, Point2D.Double>();
         for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {
                 xys.put(n.id, new Point2D.Double(n.point.x, n.point.y));
@@ -230,8 +230,8 @@ public static StreetMap parseMap(String filename) {
 			Document doc = parser.build(is);
 			Element root = doc.getRootElement();
 			
-			HashMap<Long, Node> nodes = new HashMap<>();
-			ArrayList<Way> ways = new ArrayList<>();
+			HashMap<Long, Node> nodes = new HashMap<Long, Node>();
+			ArrayList<Way> ways = new ArrayList<Way>();
 			
 			for(int i = 0; i < root.getChildElements().size(); i++) {
 				Element e = root.getChildElements().get(i);
@@ -244,7 +244,7 @@ public static StreetMap parseMap(String filename) {
 					nodes.put(n.id, n);
 				} else if (name.equals("way")) {
 					
-					ArrayList<Node> way_nodes = new ArrayList<>();
+					ArrayList<Node> way_nodes = new ArrayList<Node>();
 					
 					for(int j = 0; j < e.getChildElements().size(); j++) {
 						Element e2 = e.getChildElements().get(j);
@@ -265,7 +265,10 @@ public static StreetMap parseMap(String filename) {
 			StreetMap map = new StreetMap(ways.toArray(new Way[0]));
 			return map;
 			
-		} catch (ParsingException | IOException e) {
+		} catch (ParsingException e) {
+			e.printStackTrace();
+			return null;
+		} catch  (IOException e) {
 			e.printStackTrace();
 			return null;
 		}
@@ -281,27 +284,23 @@ public static StreetMap parseMap(String filename) {
 		for (Way way : map.ways) {
 			Node lastNode = null;
 			for (Node n : way.nodes) {
-				if (n == way.nodes[0]) {	// pierwszy
+				if (n == way.nodes[0]) {	// pierwszy element drogi
 					lastNode = n;
-				} else {					// nastepny
+				} else {					// kolejne elementy
 					Lane laneForward = new Lane(lastNode, n);	 //TODO zrobic ref
 					Lane laneBackward = new Lane(n, lastNode);
 					
-					for (Lane l : lastNode.enters) {
+					for (Lane l : lastNode.enters) 
 						l.exits.add(new LaneExit(laneForward));
-					}
 					
-					for (Lane l : lastNode.exits) {
+					for (Lane l : lastNode.exits) 
 						laneBackward.exits.add(new LaneExit(l));
-					}
 					
-					for (Lane l : n.enters) {
+					for (Lane l : n.enters) 
 						l.exits.add(new LaneExit(laneBackward));
-					}
 					
-					for (Lane l : n.exits) {
+					for (Lane l : n.exits) 
 						laneForward.exits.add(new LaneExit(l));
-					}
 					
 					lastNode.exits.add(laneForward);
 					n.enters.add(laneForward);
