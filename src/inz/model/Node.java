@@ -2,6 +2,7 @@ package inz.model;
 
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Node {
 	
@@ -15,6 +16,7 @@ public class Node {
 	
 	public ArrayList<Lane> enters = new ArrayList<Lane>();
 	public ArrayList<Lane> exits = new ArrayList<Lane>();
+	public LinkedList<Car> queue = new LinkedList<Car>();
 	
 	//world
 	public double lat;

@@ -9,5 +9,9 @@ public class Car {
 	public LaneExit nextLane;
 	public double speed; //		km/h
 	
+	
+	
+	public Node onIntersection = null;
+	
 	public boolean isFocused;
 }

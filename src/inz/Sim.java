@@ -8,6 +8,7 @@ import java.util.Random;
 
 import inz.model.Car;
 import inz.model.Lane;
+import inz.model.Node;
 import inz.model.StreetMap;
 
 public class Sim {
@@ -20,31 +21,8 @@ public class Sim {
 	}
 
 	public static void tick(StreetMap streetMap, long timeDelta) {
+		
 		for(Car car : streetMap.cars) {
-			
-			double move = car.speed * 10 / 36; // przesuniecie w skali swiata [m/s]
-			car.lane_pos += move * timeDelta / 1000;
-			
-			if (car.lane_pos > car.lane.real_length + car.nextLane.distance) { //nastepny fragment
-				car.lane.node2.intersectionTaken = false;
-				makeJump(car);
-			} else if (car.lane_pos > car.lane.real_length) { //na zlaczeniu
-				if (car.lane.exits.size() > 1) 
-					car.lane.node2.intersectionTaken = true;
-			}
-			
-			Obstacle obst = getDistanceToObstacle(streetMap, car); 
-			double obstDistance  = obst.distance;
-			
-			double vD = 0; 	// velocity difference
-			
-			if (obst.car != null) {
-				vD = car.speed - obst.car.speed;
-			} else {
-				vD = car.speed;
-			}
-			
-			vD = vD * 10f / 36f;
 			
 			double v0 = 70 * 10f / 36f;	//desired speed on free road		[m/s]
 			double T = 5; //safe time							[s]
@@ -53,19 +31,64 @@ public class Sim {
 			double s0 = 7; //safe distance (bumper to bumper)	[m]
 			double beta = 6;  //acceleration exponent			[?]
 			
+			Node intersection = null;
+			
+			if (car.lane_pos > car.lane.real_length + car.nextLane.distance) { //nastepny fragment
+				car.lane.node2.intersectionTaken = false;
+				makeJump(car);
+			} else if (car.lane_pos > car.lane.real_length) { //na zlaczeniu
+				if (car.lane.exits.size() > 1)  {
+					car.lane.node2.intersectionTaken = true;
+				}	
+			}
+			
+			Obstacle obst = getDistanceToObstacle(streetMap, car); 
+			
+			if (obst.node != null && obst.distance < s0 + 2) {
+				intersection = car.lane.node2;						//zblizamy sie do skrzyzowania
+			}
+			
+			if (car.speed < 2 && intersection != null) {			// zblizamy sie && zwolnilismy wystarczajaco
+				System.out.println("Equeuing on intersection");
+				intersection.queue.addLast(car);
+				car.onIntersection = intersection;					// jestesmy na skrzyzowaniu
+			}
+			
+			double obstDistance  = obst.distance;
+			
+			if (car.onIntersection != null && car.onIntersection.queue.peekLast() == car) {		// na skrzyzowaniu && na poczatku listy
+				System.out.println("Moving through intersection");
+				obstDistance = 9999;								// HAXXX! zignoruj przeszkode
+			}
+			
+			if ((obst.node == null || obst.node != car.onIntersection) && car.onIntersection != null) {		// przed nami auto albo inne skrzyzowanie
+				System.out.println("Leaving intersection");
+				car.onIntersection.queue.remove(car);
+				car.onIntersection = null;
+				obstDistance = 9999; //HAAXXX!
+			}
+			
+			double vD = 0; 	// velocity difference
+			if (obst.car != null) {
+				vD = car.speed - obst.car.speed;
+			} else {
+				vD = car.speed;
+			}
+			vD = vD * 10f / 36f;
+			
 			double s = obstDistance;
 			double v = car.speed * 10f / 36f; 
-			
 			double ss = s0 + (v*T + 
 						(v * vD) / (2 * Math.sqrt(a*b))
-					);	//desired distance
-			
+					);											//desired distance
 			double dv_dt = a * (
 					1 -  Math.pow((v/v0), beta)
 					- Math.pow((ss/s),2)
 				);
 			
 			car.speed = car.speed + dv_dt * (timeDelta/1000f) * 3.6f;
+			double move = car.speed * 10 / 36; 					// przesuniecie w skali swiata [m/s]
+			car.lane_pos += move * timeDelta / 1000;
 			
 			if (car.isFocused) {
 				System.out.println("Closest obstacle: " + Math.round(obstDistance));
@@ -133,6 +156,7 @@ public class Sim {
 			intersectionDistance += lane.real_length;
 			intersectionDistance += lane.exits.get(0).distance;
 		}
+		Node n = straightRoad.get(straightRoad.size() - 1).node2;
 		intersectionDistance -= car.lane_pos;
 		
 		//closest turnaround
@@ -140,12 +164,14 @@ public class Sim {
 		
 		if (closestCarDistance == -1) {
 			Obstacle o = new Obstacle();
+			o.node = n;
 			o.distance = intersectionDistance;
 			return o;
 		}
 		
 		if (intersectionDistance < closestCarDistance) {
 			Obstacle o = new Obstacle();
+			o.node = n;
 			o.distance = intersectionDistance;
 			return o;
 		} else {
@@ -160,6 +186,7 @@ public class Sim {
 	
 	private static class Obstacle {
 		Car car = null;
+		Node node = null;
 		double distance;
 	}
 	
