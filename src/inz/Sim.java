@@ -10,6 +10,7 @@ import inz.model.Car;
 import inz.model.Lane;
 import inz.model.Node;
 import inz.model.StreetMap;
+import inz.model.Car.CarState;
 
 public class Sim {
 	
@@ -23,6 +24,8 @@ public class Sim {
 	public static void tick(StreetMap streetMap, long timeDelta) {
 		
 		for(Car car : streetMap.cars) {
+			
+			car.state = CarState.normal;
 			
 			double v0 = 70 * 10f / 36f;	//desired speed on free road		[m/s]
 			double T = 5; //safe time							[s]
@@ -48,24 +51,27 @@ public class Sim {
 				intersection = car.lane.node2;						//zblizamy sie do skrzyzowania
 			}
 			
-			if (car.speed < 2 && intersection != null) {			// zblizamy sie && zwolnilismy wystarczajaco
-				System.out.println("Equeuing on intersection");
+			if (car.speed < 2 && intersection != null && car.onIntersection == null) {			// zblizamy sie && zwolnilismy wystarczajaco
 				intersection.queue.addLast(car);
 				car.onIntersection = intersection;					// jestesmy na skrzyzowaniu
+				car.state = CarState.intersection_wait;
 			}
 			
 			double obstDistance  = obst.distance;
 			
 			if (car.onIntersection != null && car.onIntersection.queue.peekLast() == car) {		// na skrzyzowaniu && na poczatku listy
-				System.out.println("Moving through intersection");
 				obstDistance = 9999;								// HAXXX! zignoruj przeszkode
+				car.state = CarState.intersection_move;
 			}
 			
-			if ((obst.node == null || obst.node != car.onIntersection) && car.onIntersection != null) {		// przed nami auto albo inne skrzyzowanie
-				System.out.println("Leaving intersection");
-				car.onIntersection.queue.remove(car);
-				car.onIntersection = null;
-				obstDistance = 9999; //HAAXXX!
+			if (car.onIntersection != null) {
+				if (obst.node == null || obst.node != car.onIntersection || (obst.node == car.onIntersection && obst.distance > s0 + 2 )) {		// przed nami auto albo inne skrzyzowanie
+					System.out.println("Leaving intersection");
+					car.onIntersection.queue.remove(car);
+					car.onIntersection = null;
+					obstDistance = 9999; //HAAXXX!
+					car.state = CarState.normal;
+				}
 			}
 			
 			double vD = 0; 	// velocity difference

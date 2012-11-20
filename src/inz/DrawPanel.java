@@ -7,6 +7,7 @@ import inz.model.LaneExit;
 import inz.model.Node;
 import inz.model.StreetMap;
 import inz.model.Way;
+import inz.model.Car.CarState;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -66,7 +67,9 @@ public class DrawPanel extends JPanel {
 	public void drawCars(Graphics2D g, StreetMap streetMap) {
 		setStyleCar(g);
 		for(Car car : streetMap.cars) {
-			if (car.isFocused) {
+			if (car.state == CarState.intersection_move) {
+				g.setColor(Color.red);
+			} else if (car.state == CarState.intersection_wait) {
 				g.setColor(Color.blue);
 			} else {
 				g.setColor(Color.black);
