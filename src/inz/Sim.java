@@ -23,12 +23,14 @@ public class Sim {
 
 	public static void tick(StreetMap streetMap, long timeDelta) {
 		
+		//TODO SOURCES ( spawn cars )
+		
 		for(Car car : streetMap.cars) {
 			
 			//car.state = CarState.normal;
 			
 			double v0 = 70 * 10f / 36f;	//desired speed on free road		[m/s]
-			double T = 5; //safe time							[s]
+			double T = 3; //safe time							[s]
 			double a = 3; //acceleration						[m/s^2]
 			double b = 7; //breakign deceleration				[m/s^2]
 			double s0 = 7; //safe distance (bumper to bumper)	[m]
@@ -48,29 +50,32 @@ public class Sim {
 			Obstacle obst = getDistanceToObstacle(streetMap, car); 
 			
 			if (obst.node != null && obst.distance < s0 + 2) {
-				intersection = car.lane.node2;						//zblizamy sie do skrzyzowania
+				intersection = obst.node;						//zblizamy sie do skrzyzowania
+				System.out.println("skrzyzowanie: " + intersection.id);
 			}
 			
 			if (car.speed < 2 && intersection != null && car.onIntersection == null) {			// zblizamy sie && zwolnilismy wystarczajaco
 				intersection.queue.addLast(car);
 				car.onIntersection = intersection;					// jestesmy na skrzyzowaniu
 				car.state = CarState.intersection_wait;
+				System.out.println("# czekam na swoja kolej");
 			}
 			
 			double obstDistance  = obst.distance;
 			
-			if (car.onIntersection != null && car.onIntersection.queue.peekLast() == car) {		// na skrzyzowaniu && na poczatku listy					
+			if (car.onIntersection != null && car.onIntersection.queue.peekLast() == car) {		// na skrzyzowaniu && na poczatku listy		 //TODO warunek TAKEN			
 				car.state = CarState.intersection_move;
 				car.onIntersection.intersectionTaken = true;
 			}
 			
 			if (car.state == CarState.intersection_move) {
 				obstDistance = 9999;						// HAXXX! zignoruj przeszkode
+				System.out.println("# przez skrzyzowanie");
 			}
 			
 			if (car.onIntersection != null) {
 				if (obst.node == null || obst.node != car.onIntersection || (obst.node == car.onIntersection && obst.distance > s0 + 2 )) {		// przed nami auto albo inne skrzyzowanie
-					System.out.println("Leaving intersection");
+					System.out.println("! za skrzyzowaniem");
 					car.onIntersection.queue.remove(car);
 					car.onIntersection.intersectionTaken = false;
 					car.onIntersection = null;
@@ -83,7 +88,7 @@ public class Sim {
 			if (obst.car != null) {
 				vD = car.speed - obst.car.speed;
 			} else {
-				vD = car.speed;
+				vD = car.speed; //TODO tu mozna dac T=0
 			}
 			vD = vD * 10f / 36f;
 			
@@ -97,14 +102,13 @@ public class Sim {
 					- Math.pow((ss/s),2)
 				);
 			
-			car.speed = car.speed + dv_dt * (timeDelta/1000f) * 3.6f;
+			car.speed = car.speed + dv_dt * (timeDelta/1000f) * 3.6f;		//TODO nie ujemne predkosc
 			double move = car.speed * 10 / 36; 					// przesuniecie w skali swiata [m/s]
-			car.lane_pos += move * timeDelta / 1000;
+			car.lane_pos += move * (timeDelta / 1000f);
 			
 			if (car.isFocused) {
-				System.out.println("Closest obstacle: " + Math.round(obstDistance));
-				System.out.println("Speed: " + Math.round(car.speed));
-				System.out.println("Desired distance: " + Math.round(ss));
+				System.out.println("    obstacle: " + Math.round(obstDistance) + "  v: " + Math.round(car.speed));
+				//System.out.println("Desired distance: " + Math.round(ss));
 			}
 
 		}
