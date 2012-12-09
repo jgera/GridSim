@@ -5,6 +5,8 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.BoxLayout;
 import java.awt.BorderLayout;
+
+import javax.swing.AbstractButton;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.JButton;
@@ -15,19 +17,34 @@ import java.awt.Component;
 import java.awt.Button;
 import javax.swing.JToggleButton;
 import javax.swing.SpringLayout;
+import javax.swing.text.Document;
+
+import java.awt.Color;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+
+import com.camick.LimitLinesDocumentListener;
+import com.camick.MessageConsole;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 import com.jgoodies.forms.factories.FormFactory;
+
+import de.erichseifert.gral.data.DataTable;
+
 import java.awt.Font;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MainWindow {
 
 	private JFrame mainFrame;
 	private DrawPanel simPanel;
+	private MessageConsole mc;
+	
+	private GraphWindow averageSpeedWindow;
+	private GraphWindow systemWaitWindow;
 
 	/**
 	 * Create the application.
@@ -35,11 +52,16 @@ public class MainWindow {
 	public MainWindow() {
 		initialize();
 	}
+	
+	
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
+		averageSpeedWindow = new GraphWindow(Reporter.averageSpeedTable, "average speed");
+		systemWaitWindow = new GraphWindow(Reporter.carsWaitingTable, "input queue");
 		
 		mainFrame = new JFrame();
 		mainFrame.setBounds(100, 100, 489, 340);
@@ -47,8 +69,14 @@ public class MainWindow {
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JTextPane consolePane = new JTextPane();
-		consolePane.setText(" \r\n \r\n \r\n ");
-		mainFrame.getContentPane().add(consolePane, BorderLayout.SOUTH);
+		JScrollPane consoleScroll = new JScrollPane(consolePane);
+		
+		mc = new MessageConsole(consolePane);
+//		mc.redirectOut();
+//		mc.redirectErr(Color.RED, null);
+		mc.setMessageLines(6);
+
+		mainFrame.getContentPane().add(consoleScroll, BorderLayout.SOUTH);
 		
 		
 		simPanel = new DrawPanel();
@@ -79,9 +107,23 @@ public class MainWindow {
 		menuPanel.add(lblMenu, "1, 2, center, center");
 		
 		JToggleButton tglbtnNewToggleButton = new JToggleButton("Average speed");
+		tglbtnNewToggleButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				AbstractButton abstractButton = (AbstractButton)actionEvent.getSource();
+		        boolean selected = abstractButton.getModel().isSelected();
+		        averageSpeedWindow.setVisible(selected);
+			}
+		});
 		menuPanel.add(tglbtnNewToggleButton, "1, 4, fill, center");
 		
 		JToggleButton tglbtnNewToggleButton_1 = new JToggleButton("System input wait");
+		tglbtnNewToggleButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				AbstractButton abstractButton = (AbstractButton)actionEvent.getSource();
+		        boolean selected = abstractButton.getModel().isSelected();
+		        systemWaitWindow.setVisible(selected);
+			}
+		});
 		menuPanel.add(tglbtnNewToggleButton_1, "1, 6, fill, center");
 		
 		JToggleButton tglbtnCarsDetails = new JToggleButton("Cars details");
@@ -101,7 +143,12 @@ public class MainWindow {
 	public DrawPanel getSimPanel() {
 		return simPanel;
 	}
+	
 	public JFrame getMainFrame() {
 		return mainFrame;
 	}
+	
+	
+	
+	
 }

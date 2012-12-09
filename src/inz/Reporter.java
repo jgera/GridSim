@@ -1,11 +1,20 @@
 package inz;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import de.erichseifert.gral.data.DataTable;
+
 import inz.model.Car;
 import inz.model.Node;
 import inz.model.StreetMap;
 import inz.model.Car.CarState;
 
 public class Reporter {
+	
+	public static DataTable averageSpeedTable = new DataTable(Double.class, Double.class);
+	public static DataTable carsWaitingTable = new DataTable(Long.class, Long.class);
+	public static DataTable systemOutputTable = new DataTable(Long.class, Long.class);
 	
 	public void perTick(StreetMap map) {
 		
@@ -14,7 +23,7 @@ public class Reporter {
 		double averageSpeed = 0;
 		int carsWaitingOnStop = 0;
 		int carsMovingThroughtIntersection = 0;
-		int carsWaitingToEnter = 0;
+		long carsWaitingToEnter = 0;
 		
 		for(Car c : map.cars) {
 			carsInSystem += 1;
@@ -36,6 +45,8 @@ public class Reporter {
 			carsWaitingToEnter += n.sourceWaitCarsCount;
 		}
 		
+		carsWaitingTable.add(System.currentTimeMillis(), carsWaitingToEnter);
+		averageSpeedTable.add((double)System.currentTimeMillis(), averageSpeed);
 		System.out.println("average speed: " + averageSpeed);
 		System.out.println("Cars waiting: " + carsWaitingToEnter);
 	} 
