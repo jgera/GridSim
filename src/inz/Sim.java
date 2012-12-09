@@ -24,7 +24,7 @@ public class Sim {
 	public static void tick(StreetMap streetMap, long timeDelta) {
 		
 		//TODO SOURCES ( spawn cars )
-		
+
 		for(Car car : streetMap.cars) {
 			
 			//car.state = CarState.normal;
@@ -63,7 +63,7 @@ public class Sim {
 			
 			double obstDistance  = obst.distance;
 			
-			if (car.onIntersection != null && car.onIntersection.queue.peekLast() == car) {		// na skrzyzowaniu && na poczatku listy		 //TODO warunek TAKEN			
+			if (car.onIntersection != null && car.onIntersection.queue.peekFirst() == car) {		// na skrzyzowaniu && na poczatku listy		 //TODO warunek TAKEN			
 				car.state = CarState.intersection_move;
 				car.onIntersection.intersectionTaken = true;
 			}
@@ -88,7 +88,7 @@ public class Sim {
 			if (obst.car != null) {
 				vD = car.speed - obst.car.speed;
 			} else {
-				vD = car.speed; //TODO tu mozna dac T=0
+				vD = car.speed; 
 			}
 			vD = vD * 10f / 36f;
 			
@@ -102,13 +102,12 @@ public class Sim {
 					- Math.pow((ss/s),2)
 				);
 			
-			car.speed = car.speed + dv_dt * (timeDelta/1000f) * 3.6f;		//TODO nie ujemne predkosc
+			car.speed = car.speed + dv_dt * (timeDelta/1000f) * 3.6f;		
 			double move = car.speed * 10 / 36; 					// przesuniecie w skali swiata [m/s]
 			car.lane_pos += move * (timeDelta / 1000f);
 			
 			if (car.isFocused) {
 				System.out.println("    obstacle: " + Math.round(obstDistance) + "  v: " + Math.round(car.speed));
-				//System.out.println("Desired distance: " + Math.round(ss));
 			}
 
 		}

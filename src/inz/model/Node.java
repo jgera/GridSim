@@ -31,4 +31,8 @@ public class Node {
 	
 	//state
 	public boolean intersectionTaken = false;
+	
+	//sink source
+	public boolean isSink = false;
+	public double sourceRatio = 0.01;
 }

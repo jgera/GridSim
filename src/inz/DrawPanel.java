@@ -149,14 +149,14 @@ public class DrawPanel extends JPanel {
 			}
 		}
 		
-		
 		//podpisy
-		g.setColor(Color.darkGray);
+		g.setColor(Color.gray);
 		for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {
         		g.drawString(Long.toString(n.id), n.x, n.y);
         	}
         }
+		
 	}
 	
     @Override
