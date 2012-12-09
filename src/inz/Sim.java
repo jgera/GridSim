@@ -17,11 +17,17 @@ public class Sim {
 	static Reporter reporter = new Reporter();
 	
 	public static void init(StreetMap streetMap) {
-		String carId = "rnd";
+		
+		List<Lane> lanesWithExits = new ArrayList<Lane>();
+		for(Lane l : streetMap.lanes) {
+			if (l.exits.size() > 0 ) {
+				lanesWithExits.add(l);
+			}
+		}
 		
 		for(int i = 0; i < 10; i++) {
-			int rndLane = new Random().nextInt(streetMap.lanes.length);
-			addCar("r", streetMap, streetMap.lanes[rndLane], i == 0);
+			int rndLane = new Random().nextInt(lanesWithExits.size());
+			addCar("r", streetMap, lanesWithExits.get(rndLane), i == 0);
 		}
 	}
 
@@ -68,14 +74,17 @@ public class Sim {
 			
 			Node intersection = null;
 			
-			if (car.lane_pos > car.lane.real_length + car.nextLane.distance) { //nastepny fragment
-				car.lane.node2.intersectionTaken = false;
-				makeJump(car);
-			} else if (car.lane_pos > car.lane.real_length) { //na zlaczeniu
-				if (car.lane.exits.size() > 1)  {
-					car.lane.node2.intersectionTaken = true;
-				}	
+			if(car.nextLane != null) {
+				if (car.lane_pos > car.lane.real_length + car.nextLane.distance) { //nastepny fragment
+					car.lane.node2.intersectionTaken = false;
+					makeJump(car);
+				} else if (car.lane_pos > car.lane.real_length) { //na zlaczeniu
+					if (car.lane.exits.size() > 1)  {
+						car.lane.node2.intersectionTaken = true;
+					}	
+				}
 			}
+			
 			
 			Obstacle obst = getDistanceToObstacle(streetMap, car); 
 			
@@ -93,7 +102,7 @@ public class Sim {
 			double obstDistance  = obst.distance;
 			
 			if (car.onIntersection != null && car.onIntersection.queue.peekFirst() == car) {		// na skrzyzowaniu && na poczatku listy
-				if (findClosestCar(streetMap, car.nextLane.lane).distance > s0) {
+				if (car.nextLane == null || findClosestCar(streetMap, car.nextLane.lane).distance > s0) {
 					car.state = CarState.intersection_move;
 					car.onIntersection.intersectionTaken = true;
 				} else {
@@ -258,8 +267,12 @@ public class Sim {
 		//closest intersections
 		double intersectionDistance = -1;
 		for (Lane lane : straightRoad) {
-			intersectionDistance += lane.real_length;
-			intersectionDistance += lane.exits.get(0).distance;
+			if(lane.exits.size() > 0) {
+				intersectionDistance += lane.real_length;
+				intersectionDistance += lane.exits.get(0).distance;
+			} else {
+				intersectionDistance = 1000000;
+			}
 		}
 		Node n = straightRoad.get(straightRoad.size() - 1).node2;
 		intersectionDistance -= car.lane_pos;
@@ -297,8 +310,13 @@ public class Sim {
 	
 	private static void makeJump(Car car) {
 		car.lane = car.nextLane.lane;
-		int rnd_exit = new Random().nextInt(car.lane.exits.size());
-		car.nextLane = car.lane.exits.get(rnd_exit);
 		car.lane_pos = 0;
+
+		if (car.lane.exits.size() == 0) {
+			car.nextLane = null;
+		} else {
+			int rnd_exit = new Random().nextInt(car.lane.exits.size());
+			car.nextLane = car.lane.exits.get(rnd_exit);
+		}
 	}
 }

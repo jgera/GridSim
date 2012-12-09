@@ -322,7 +322,7 @@ public static StreetMap parseMap(String filename) {
 						n.isSink = true;
 						for (Lane l2 : n.exits) {
 							n.sourceRatio = 0.01;
-							l.exits.add(new LaneExit(l2));
+							//l.exits.add(new LaneExit(l2));
 						}
 					}
 				}

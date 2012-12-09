@@ -83,15 +83,23 @@ public class DrawPanel extends JPanel {
 				double part = car.lane_pos / car.lane.real_length;
 				x = car.lane.x1 + (int)Math.round((car.lane.x2 - car.lane.x1) * part);
 				y = car.lane.y1 + (int)Math.round((car.lane.y2 - car.lane.y1) * part);
+				
+				g.drawOval(x-5, y-5, 10, 10);
+				g.setColor(Color.black);
+				g.drawString(car.carId, x-5, y-5);	//nazwy
 			} else {
-				double part = (car.lane_pos - car.lane.real_length) / car.nextLane.distance;
-				x = car.lane.x2 + (int)Math.round((car.nextLane.lane.x1 - car.lane.x2) * part);		//FIXME .lane. sugeruje ze odl tez sie liczy
-				y = car.lane.y2 + (int)Math.round((car.nextLane.lane.y1 - car.lane.y2) * part);
+				if (car.nextLane != null) {
+					double part = (car.lane_pos - car.lane.real_length) / car.nextLane.distance;
+					x = car.lane.x2 + (int)Math.round((car.nextLane.lane.x1 - car.lane.x2) * part);		//FIXME .lane. sugeruje ze odl tez sie liczy
+					y = car.lane.y2 + (int)Math.round((car.nextLane.lane.y1 - car.lane.y2) * part);
+					
+					g.drawOval(x-5, y-5, 10, 10);
+					g.setColor(Color.black);
+					g.drawString(car.carId, x-5, y-5);	//nazwy
+				}
 			}
 			
-			g.drawOval(x-5, y-5, 10, 10);
-			g.setColor(Color.black);
-			g.drawString(car.carId, x-5, y-5);	//nazwy
+			
 			
 		}
 	}
