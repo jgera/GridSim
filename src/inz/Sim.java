@@ -106,6 +106,8 @@ public class Sim {
 					car.state = CarState.intersection_move;
 					car.onIntersection.intersectionTaken = true;
 				} else {
+					car.onIntersection.queue.remove(car);
+					car.onIntersection.queue.add(car);
 					System.out.println("[" + car.carId + "] " + "waiting - NO SPACE");
 				}
 			}
