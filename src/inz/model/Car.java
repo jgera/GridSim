@@ -9,7 +9,7 @@ public class Car {
 	public LaneExit nextLane;
 	public double speed; //		km/h
 	
-	
+	public String carId = "";
 	
 	public Node onIntersection = null;
 	
@@ -22,4 +22,12 @@ public class Car {
 		intersection_wait,
 		intersection_move	//RED
 	}
+	
+	
+	private static volatile int carNo = 0;
+	public static synchronized String getNextCarId(String prefix) {
+		carNo++;
+		return prefix + carNo;
+	}
+	
 }

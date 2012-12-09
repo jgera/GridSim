@@ -263,6 +263,7 @@ public static StreetMap parseMap(String filename) {
 			}
 			
 			StreetMap map = new StreetMap(ways.toArray(new Way[0]));
+			map.nodes = nodes.values().toArray(new Node[0]);
 			return map;
 			
 		} catch (ParsingException e) {
@@ -318,7 +319,9 @@ public static StreetMap parseMap(String filename) {
 			for (Node n : way.nodes) {
 				for (Lane l : n.enters) {
 					if (l.exits.size() == 0) {
+						n.isSink = true;
 						for (Lane l2 : n.exits) {
+							n.sourceRatio = 0.01;
 							l.exits.add(new LaneExit(l2));
 						}
 					}

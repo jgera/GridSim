@@ -34,5 +34,6 @@ public class Node {
 	
 	//sink source
 	public boolean isSink = false;
-	public double sourceRatio = 0.01;
+	public double sourceRatio = 0;
+	public int sourceWaitCarsCount = 0;
 }

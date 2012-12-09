@@ -14,18 +14,48 @@ import inz.model.Car.CarState;
 
 public class Sim {
 	
+	static Reporter reporter = new Reporter();
+	
 	public static void init(StreetMap streetMap) {
+		String carId = "rnd";
+		
 		for(int i = 0; i < 10; i++) {
 			int rndLane = new Random().nextInt(streetMap.lanes.length);
-			addCar(streetMap, streetMap.lanes[rndLane], i == 0);
+			addCar("r", streetMap, streetMap.lanes[rndLane], i == 0);
 		}
 	}
 
 	public static void tick(StreetMap streetMap, long timeDelta) {
 		
 		//TODO SOURCES ( spawn cars )
+		
+		List<Car> carsToBeRemoved = new ArrayList<Car>();
+		
+		Random rnd = new Random();
+		for(Node n : streetMap.nodes) {
+			if (n.exits.size() > 0) {
+				if(n.sourceRatio > 0) {
+					if (rnd.nextDouble() < n.sourceRatio) {
+						n.sourceWaitCarsCount++;
+					}
+				}
+				
+				Obstacle obst = findClosestCar(streetMap, n.exits.get(0));
+				if(n.sourceWaitCarsCount > 0 && obst.distance > 7) {
+					n.sourceWaitCarsCount--;
+					addCar("s", streetMap, n.exits.get(0), false);
+				}
+			}
+		}
 
 		for(Car car : streetMap.cars) {
+			
+			if (car.lane.node2.isSink == true) {
+				if (car.lane_pos >= car.lane.real_length) {
+					carsToBeRemoved.add(car);
+					continue;
+				}
+			}
 			
 			//car.state = CarState.normal;
 			
@@ -51,26 +81,29 @@ public class Sim {
 			
 			if (obst.node != null && obst.distance < s0 + 2) {
 				intersection = obst.node;						//zblizamy sie do skrzyzowania
-				System.out.println("skrzyzowanie: " + intersection.id);
 			}
 			
 			if (car.speed < 2 && intersection != null && car.onIntersection == null) {			// zblizamy sie && zwolnilismy wystarczajaco
 				intersection.queue.addLast(car);
 				car.onIntersection = intersection;					// jestesmy na skrzyzowaniu
 				car.state = CarState.intersection_wait;
-				System.out.println("# czekam na swoja kolej");
+				System.out.println("[" + car.carId + "] " + "waiting");
 			}
 			
 			double obstDistance  = obst.distance;
 			
-			if (car.onIntersection != null && car.onIntersection.queue.peekFirst() == car) {		// na skrzyzowaniu && na poczatku listy		 //TODO warunek TAKEN			
-				car.state = CarState.intersection_move;
-				car.onIntersection.intersectionTaken = true;
+			if (car.onIntersection != null && car.onIntersection.queue.peekFirst() == car) {		// na skrzyzowaniu && na poczatku listy
+				if (findClosestCar(streetMap, car.nextLane.lane).distance > s0) {
+					car.state = CarState.intersection_move;
+					car.onIntersection.intersectionTaken = true;
+				} else {
+					System.out.println("[" + car.carId + "] " + "waiting - NO SPACE");
+				}
 			}
 			
 			if (car.state == CarState.intersection_move) {
 				obstDistance = 9999;						// HAXXX! zignoruj przeszkode
-				System.out.println("# przez skrzyzowanie");
+				System.out.println("[" + car.carId + "] " + "moving intersection");
 			}
 			
 			if (car.onIntersection != null) {
@@ -102,19 +135,34 @@ public class Sim {
 					- Math.pow((ss/s),2)
 				);
 			
-			car.speed = car.speed + dv_dt * (timeDelta/1000f) * 3.6f;		
+			car.speed = car.speed + dv_dt * (timeDelta/1000f) * 3.6f;	
+			
+			if(car.speed < 0 || Double.isNaN(car.speed)) {
+				//FIXME log!!!
+				car.speed = 0;
+			}
+			
 			double move = car.speed * 10 / 36; 					// przesuniecie w skali swiata [m/s]
 			car.lane_pos += move * (timeDelta / 1000f);
 			
-			if (car.isFocused) {
-				System.out.println("    obstacle: " + Math.round(obstDistance) + "  v: " + Math.round(car.speed));
-			}
+//			if (car.isFocused) {
+//				System.out.println("    obstacle: " + Math.round(obstDistance) + "  v: " + Math.round(car.speed));
+//			}
 
 		}
+		
+		reporter.perTick(streetMap);
+		
+		for(Car c : carsToBeRemoved) {
+			System.out.println("car: " + c.carId + " exits");
+		}
+		streetMap.cars.removeAll(carsToBeRemoved);
+		
 	}
 	
-	private static void addCar(StreetMap streetMap, Lane lane, boolean focused) {
+	private static void addCar(String prefix, StreetMap streetMap, Lane lane, boolean focused) {
 		Car testCar = new Car();
+		testCar.carId = Car.getNextCarId(prefix);
         testCar.lane = lane;
         testCar.nextLane = lane.exits.get(0);
         testCar.lane_pos = 0;
@@ -123,6 +171,49 @@ public class Sim {
         streetMap.cars.add(testCar);
 	}
 	
+	private static Obstacle findClosestCar(StreetMap streetMap, Lane lane) {
+		
+		List<Lane> straightRoad = new ArrayList<Lane>();	// odcinek "widocznosci"
+		straightRoad.add(lane);
+		Lane l = lane;
+		while(l.exits.size() == 1) {
+			l = l.exits.get(0).lane;
+			straightRoad.add(l);
+		}
+		
+		//closest car (until intersection)
+		HashMap<Double, Car> closeCars = new HashMap<Double, Car>();
+		for (Car c : streetMap.cars) {
+			
+			if (straightRoad.contains(c.lane)) {
+				double distance = 0;
+				for (Lane lane2 : straightRoad) {
+					if (lane2 == c.lane) {
+						distance += c.lane_pos;	
+						break;
+					} else {
+						distance += lane2.real_length;
+						distance += lane2.exits.get(0).distance;
+					}
+				}
+				closeCars.put(distance, c);
+			}
+		}
+		Car closestCar = null;
+		double closestCarDistance = 1000000;
+		for (Entry<Double, Car> e : closeCars.entrySet()) {			
+			if (e.getKey() < closestCarDistance && e.getKey() > 0) {
+				closestCarDistance = e.getKey();
+				closestCar = e.getValue();
+			}
+		}
+		
+		Obstacle o = new Obstacle();
+		o.car = closestCar;
+		o.distance = closestCarDistance;
+		return o;
+		
+	}
 	
 	private static Obstacle getDistanceToObstacle(StreetMap streetMap, Car car) {
 		

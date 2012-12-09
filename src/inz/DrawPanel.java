@@ -12,6 +12,7 @@ import inz.model.Car.CarState;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Insets;
@@ -60,13 +61,15 @@ public class DrawPanel extends JPanel {
 	
 	public void setStyleCar(Graphics2D g) {
 		g.setColor(Color.black);
+		g.setFont(g.getFont().deriveFont(9f));
 		BasicStroke bs1 = new BasicStroke(scaleWidth(1f));
         g.setStroke(bs1);
 	}
 	
 	public void drawCars(Graphics2D g, StreetMap streetMap) {
-		setStyleCar(g);
+		
 		for(Car car : streetMap.cars) {
+			setStyleCar(g);
 			if (car.state == CarState.intersection_move) {
 				g.setColor(Color.red);
 			} else if (car.state == CarState.intersection_wait) {
@@ -74,18 +77,22 @@ public class DrawPanel extends JPanel {
 			} else {
 				g.setColor(Color.black);
 			}
+			int x,y;
 			if (car.lane_pos < car.lane.real_length) {
 				//na trasie
 				double part = car.lane_pos / car.lane.real_length;
-				int x = car.lane.x1 + (int)Math.round((car.lane.x2 - car.lane.x1) * part);
-				int y = car.lane.y1 + (int)Math.round((car.lane.y2 - car.lane.y1) * part);
-				g.drawOval(x-5, y-5, 10, 10);
+				x = car.lane.x1 + (int)Math.round((car.lane.x2 - car.lane.x1) * part);
+				y = car.lane.y1 + (int)Math.round((car.lane.y2 - car.lane.y1) * part);
 			} else {
 				double part = (car.lane_pos - car.lane.real_length) / car.nextLane.distance;
-				int x = car.lane.x2 + (int)Math.round((car.nextLane.lane.x1 - car.lane.x2) * part);		//FIXME .lane. sugeruje ze odl tez sie liczy
-				int y = car.lane.y2 + (int)Math.round((car.nextLane.lane.y1 - car.lane.y2) * part);
-				g.drawOval(x-5, y-5, 10, 10);
+				x = car.lane.x2 + (int)Math.round((car.nextLane.lane.x1 - car.lane.x2) * part);		//FIXME .lane. sugeruje ze odl tez sie liczy
+				y = car.lane.y2 + (int)Math.round((car.nextLane.lane.y1 - car.lane.y2) * part);
 			}
+			
+			g.drawOval(x-5, y-5, 10, 10);
+			g.setColor(Color.black);
+			g.drawString(car.carId, x-5, y-5);	//nazwy
+			
 		}
 	}
 
@@ -153,7 +160,7 @@ public class DrawPanel extends JPanel {
 		g.setColor(Color.gray);
 		for (Way way : streetMap.ways) {
         	for (Node n : way.nodes) {
-        		g.drawString(Long.toString(n.id), n.x, n.y);
+        		//g.drawString(Long.toString(n.id), n.x, n.y);
         	}
         }
 		
