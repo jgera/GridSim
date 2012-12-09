@@ -329,6 +329,15 @@ public static StreetMap parseMap(String filename) {
 			}
 		}
 		
+		 Set<Lane> lanes = new HashSet<Lane>();
+		for (Way way : map.ways) {
+        	for (Node n : way.nodes) {
+        		lanes.addAll(n.enters);
+        		lanes.addAll(n.exits);
+        	}
+		}
+		map.lanes = lanes.toArray(new Lane[0]);
+		
 	}
 }
 	

@@ -27,7 +27,10 @@ public class DrawPanel extends JPanel {
 	private static final long serialVersionUID = 3026058640922011855L;
 	StreetMap streetMap;
 	
-	public DrawPanel(StreetMap streetMap) {
+	public DrawPanel() {
+	}
+	
+	public void setStreetMap(StreetMap streetMap) {
 		this.streetMap = streetMap;
 	}
 	
@@ -142,17 +145,8 @@ public class DrawPanel extends JPanel {
         }
         
         setStyleLane(g);
-        Set<Lane> lanes = new HashSet<Lane>();
-		for (Way way : streetMap.ways) {
-        	for (Node n : way.nodes) {
-        		lanes.addAll(n.enters);
-        		lanes.addAll(n.exits);
-        	}
-		}
-		streetMap.lanes = lanes.toArray(new Lane[0]);
 		
-		
-		for (Lane l : lanes) {
+		for (Lane l : streetMap.lanes) {
 			setStyleLane(g);
 			g.drawLine(l.x1, l.y1, l.x2, l.y2);
 			for (LaneExit e : l.exits) {
@@ -177,9 +171,10 @@ public class DrawPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-
         Graphics2D g2d = (Graphics2D) g;
         
+        if (streetMap == null)
+        	return;
         
         g2d.setColor(Color.lightGray);
         BasicStroke bs1 = new BasicStroke(12f);

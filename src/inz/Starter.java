@@ -19,9 +19,14 @@ public class Starter {
         		MapHelpers.prepareMap(streetMap);
         		MapHelpers.findLanesPositions(streetMap);
                 MapHelpers.findConnectorLengths(streetMap);
+                
+                MainWindow mainWindow = new MainWindow();
+                mainWindow.setVisible(true);
+                
+                SimRunner simRunner = new SimRunner(streetMap);
+        		simRunner.setDrawPanel(mainWindow.drawPanel);
         		
-                MainWindow ex = new MainWindow(streetMap);
-                ex.setVisible(true);
+        		simRunner.startSimulation(50);
             }
         });
 	}
