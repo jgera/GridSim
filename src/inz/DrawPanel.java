@@ -57,7 +57,7 @@ public class DrawPanel extends JPanel {
 	}
 	
 	public void setStyleLane2(Graphics2D g) {
-		g.setColor(Color.yellow);
+		g.setColor(Color.darkGray);
 		BasicStroke bs1 = new BasicStroke(scaleWidth(0.5f));
         g.setStroke(bs1);
 	}
@@ -74,9 +74,9 @@ public class DrawPanel extends JPanel {
 		for(Car car : streetMap.cars) {
 			setStyleCar(g);
 			if (car.state == CarState.intersection_move) {
-				g.setColor(Color.red);
+				g.setColor(Color.green);
 			} else if (car.state == CarState.intersection_wait) {
-				g.setColor(Color.blue);
+				g.setColor(Color.red);
 			} else {
 				g.setColor(Color.black);
 			}
@@ -152,7 +152,7 @@ public class DrawPanel extends JPanel {
 			for (LaneExit e : l.exits) {
 				setStyleLane2(g);
 				if (e.lane.node1.intersectionTaken) {
-					g.setColor(Color.red);
+					g.setColor(Color.white);
 				}
 				g.drawLine(l.x2, l.y2, e.lane.x1, e.lane.y1);
 			}
