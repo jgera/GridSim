@@ -33,8 +33,6 @@ public class Sim {
 
 	public static void tick(StreetMap streetMap, long timeDelta) {
 		
-		//TODO SOURCES ( spawn cars )
-		
 		List<Car> carsToBeRemoved = new ArrayList<Car>();
 		
 		Random rnd = new Random();
@@ -96,7 +94,7 @@ public class Sim {
 				intersection.queue.addLast(car);
 				car.onIntersection = intersection;					// jestesmy na skrzyzowaniu
 				car.state = CarState.intersection_wait;
-				System.out.println("[" + car.carId + "] " + "waiting");
+//				System.out.println("[" + car.carId + "] " + "waiting");
 			}
 			
 			double obstDistance  = obst.distance;
@@ -108,18 +106,18 @@ public class Sim {
 				} else {
 					car.onIntersection.queue.remove(car);
 					car.onIntersection.queue.add(car);
-					System.out.println("[" + car.carId + "] " + "waiting - NO SPACE");
+//					System.out.println("[" + car.carId + "] " + "waiting - NO SPACE");
 				}
 			}
 			
 			if (car.state == CarState.intersection_move) {
 				obstDistance = 9999;						// HAXXX! zignoruj przeszkode
-				System.out.println("[" + car.carId + "] " + "moving intersection");
+//				System.out.println("[" + car.carId + "] " + "moving intersection");
 			}
 			
 			if (car.onIntersection != null) {
 				if (obst.node == null || obst.node != car.onIntersection || (obst.node == car.onIntersection && obst.distance > s0 + 2 )) {		// przed nami auto albo inne skrzyzowanie
-					System.out.println("! za skrzyzowaniem");
+//					System.out.println("! za skrzyzowaniem");
 					car.onIntersection.queue.remove(car);
 					car.onIntersection.intersectionTaken = false;
 					car.onIntersection = null;
@@ -165,7 +163,7 @@ public class Sim {
 		reporter.perTick(streetMap);
 		
 		for(Car c : carsToBeRemoved) {
-			System.out.println("car: " + c.carId + " exits");
+//			System.out.println("car: " + c.carId + " exits");
 		}
 		streetMap.cars.removeAll(carsToBeRemoved);
 		

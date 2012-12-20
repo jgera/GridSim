@@ -45,6 +45,7 @@ public class MainWindow {
 	
 	private GraphWindow averageSpeedWindow;
 	private GraphWindow systemWaitWindow;
+	private GraphWindow carsInSystem;
 
 	/**
 	 * Create the application.
@@ -62,9 +63,10 @@ public class MainWindow {
 		
 		averageSpeedWindow = new GraphWindow(Reporter.averageSpeedTable, "average speed");
 		systemWaitWindow = new GraphWindow(Reporter.carsWaitingTable, "input queue");
+		carsInSystem = new GraphWindow(Reporter.averageSpeed_carsInSystem, "cars in system");
 		
 		mainFrame = new JFrame();
-		mainFrame.setBounds(100, 100, 489, 340);
+		mainFrame.setBounds(100, 100, 1000, 800);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -126,8 +128,15 @@ public class MainWindow {
 		});
 		menuPanel.add(tglbtnNewToggleButton_1, "1, 6, fill, center");
 		
-		JToggleButton tglbtnCarsDetails = new JToggleButton("Cars details");
-		menuPanel.add(tglbtnCarsDetails, "1, 8");
+		JToggleButton tglbtnNewToggleButton_2 = new JToggleButton("Cars in system");
+		tglbtnNewToggleButton_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent actionEvent) {
+				AbstractButton abstractButton = (AbstractButton)actionEvent.getSource();
+		        boolean selected = abstractButton.getModel().isSelected();
+		        carsInSystem.setVisible(selected);
+			}
+		});
+		menuPanel.add(tglbtnNewToggleButton_2, "1, 8, fill, center");
 		
 		JToggleButton tglbtnNodeDetails = new JToggleButton("Node details");
 		menuPanel.add(tglbtnNodeDetails, "1, 10");
