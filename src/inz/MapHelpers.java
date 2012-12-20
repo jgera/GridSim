@@ -8,6 +8,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import nu.xom.Builder;
 import nu.xom.Document;
 import nu.xom.Element;
@@ -188,7 +190,7 @@ public class MapHelpers {
 			double p_y = x / len;
 			
 			//przesuniecie do osi
-			double margin = 2; // [m]
+			double margin = -2; // [m]
 			double sx = n1.point.x + p_x * margin;
 			double sy = n1.point.y + p_y * margin;
 			double ex = n2.point.x + p_x * margin;
@@ -255,7 +257,8 @@ public static StreetMap parseMap(String filename) {
 						}
 					}
 					
-					Way w = new Way(Long.parseLong(e.getAttributeValue("id")), way_nodes.toArray(new Node[0]));
+					Node[] node_array = way_nodes.toArray(new Node[0]);
+					Way w = new Way(Long.parseLong(e.getAttributeValue("id")), node_array);
 					ways.add(w);
 				}
 				
