@@ -8,6 +8,7 @@ public class Car {
 	
 	public LaneExit nextLane;
 	public double speed; //		km/h
+	public double last_speed = 0;
 	
 	public String carId = "";
 	

@@ -63,12 +63,24 @@ public class Sim {
 			
 			//car.state = CarState.normal;
 			
+			//NORMAL
 			double v0 = 70 * 10f / 36f;	//desired speed on free road		[m/s]
 			double T = 3; //safe time							[s]
 			double a = 3; //acceleration						[m/s^2]
 			double b = 7; //breakign deceleration				[m/s^2]
 			double s0 = 7; //safe distance (bumper to bumper)	[m]
 			double beta = 6;  //acceleration exponent			[?]
+			
+			//ANGRY DRIVERS
+//			v0 = 90 *  10f / 36f;
+//			T = 2;
+//			a = 5;
+//			b = 9;
+//			s0 = 7;
+//			beta = 6;
+			
+			//na zderzaku
+//			s0=4;
 			
 			Node intersection = null;
 			
@@ -99,13 +111,17 @@ public class Sim {
 			
 			double obstDistance  = obst.distance;
 			
-			if (car.onIntersection != null && car.onIntersection.queue.peekFirst() == car) {		// na skrzyzowaniu && na poczatku listy
+//			if (car.onIntersection != null && car.onIntersection.queue.peekFirst() == car) {		// na skrzyzowaniu && na poczatku listy
+			
+			// magiczne skrzyzowanie
+			if (car.onIntersection != null) {		// na skrzyzowaniu && na poczatku listy
 				if (car.nextLane == null || findClosestCar(streetMap, car.nextLane.lane).distance > s0) {
 					car.state = CarState.intersection_move;
 					car.onIntersection.intersectionTaken = true;
 				} else {
 					car.onIntersection.queue.remove(car);
 					car.onIntersection.queue.add(car);
+
 //					System.out.println("[" + car.carId + "] " + "waiting - NO SPACE");
 				}
 			}
@@ -150,6 +166,19 @@ public class Sim {
 				//FIXME log!!!
 				car.speed = 0;
 			}
+			
+// zaspany kierowca
+			
+//			if(car.speed > car.last_speed) {
+//				double ratio = 0.5;
+//				if(car.last_speed == 0) {
+//					ratio = 0.8;
+//				}
+//				if(rnd.nextDouble() > ratio) {
+//					car.speed = car.last_speed;
+//				}
+//				car.last_speed = car.speed;
+//			}
 			
 			double move = car.speed * 10 / 36; 					// przesuniecie w skali swiata [m/s]
 			car.lane_pos += move * (timeDelta / 1000f);
